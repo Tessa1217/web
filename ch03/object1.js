@@ -33,6 +33,15 @@ class Student {
     this.phone = phone;
   }
 
+  // Setter (속성 숨기기)
+  set gender(gen) {
+    this._gender = gen;
+  }
+  // Getter
+  get gender() {
+    return this._gender;
+  }
+
   getFullInfo = function() {
     if (this.phone != undefined) {
       return `학번:${this.sno}, 이름:${this.sname}, 성적:${this.score}, 연락처${this.phone}`;
@@ -45,6 +54,9 @@ class Student {
 let s1 = new Student('001', '홍길동', 80);
 console.log(`학생이름: ${s1.sname}`);
 console.log(`학생점수:${s1.score}`);
+s1.gender = 'Male';
+console.log(s1.gender); // undefined로 숨길 수 있음 => Getter 생성 후 Male을 return
+// Getter 또는 값을 리턴해주는 별도의 메소드가 없을 경우에는 undefined로 값 숨길 수 있음
 console.log(s1.getName());
 console.log(s1.setName('박길동'));
 console.log(s1.getInfo());
