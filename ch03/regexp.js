@@ -48,10 +48,12 @@ let filterFriend = friends.filter(function(val, idx) {
 console.log(filterFriend);
 
 // reduce - 두번째 파라미터: 누적하기 위한 초기값
-newFriends = friends.reduce(function(a, b, c, d) {
-  console.log(a, b, c, d);
-  return b;
-}, {})
+let sumAge = friends.reduce(function(accum, val, idx, ary) {
+  console.log(`idx: ${idx}, age: ${val.age}, accum:${accum}`);
+  return accum + val.age;
+}, 0)
+console.log(sumAge); // friends 요소들의 나이 누적 최종값 출력, 14
+// accum이라는 값에다가 나이를 누적시킴
 
 
 // 탬플릿 리터럴사용
