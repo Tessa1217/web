@@ -5,15 +5,49 @@ function formPrac() {
   // console.log(document.forms.frm.lname.value);
   // console.log(document.forms.frm.age.value);
 
+  let members = [
+    {first_name: '임경',
+    last_name: '정',
+    phone: '010-1111-2222',
+    age: 20},
+    {first_name: '근형',
+      last_name: '박',
+    phone: '010-3333-4444',
+    age: 21},
+    {first_name: '진형',
+      last_name: '김',
+    phone: '010-5555-6666',
+    age: 20}];
+
+    for (let member of members) {
+      let tr = document.createElement('tr');
+      let td, btn, chk;  
+      td = document.createElement('td');
+      chk = document.createElement('input');
+      chk.setAttribute('type', 'checkbox');
+      td.append(chk);
+      tr.append(td);
+      for (let field in member) {
+        td = document.createElement('td');
+        td.innerText = member[field];
+        tr.append(td);
+      }
+      td = document.createElement('td');
+      btn = document.createElement('button');
+      btn.innerText = "삭제";
+      td.append(btn);
+      tr.append(td);
+      let tbody = document.querySelector('#list');
+      tbody.append(tr);
+    }
+ 
+
   // 선택 삭제
   let sdelete = document.querySelector('#delete');
-  console.log(sdelete);
   sdelete.addEventListener('click', delCheck);
     function delCheck() {
       let checkList = document.querySelectorAll('#list input[type="checkbox"]');
-      console.log(checkList);
       checkList.forEach(chk => {
-      console.log(chk.checked);
       if (chk.checked == true) {
         chk.parentElement.parentElement.remove(); 
       }
@@ -29,8 +63,12 @@ function formPrac() {
     if (!fn || !ln || !phone || !age) {
       return alert("값을 입력해주세요");
     }
+    // document.querySelectorAll('form>input').forEach(elem => {
+    //   if (elem.type == 'text' || elem.type == 'number' || elem.type == 'tel') {
+    //     inValues.push(elem.value);
+    //   }
+    // })
     let inputAry = [fn, ln, phone, age];
-    console.log(inputAry);
     
     // 태그
     let trTag = document.createElement('tr');
@@ -71,4 +109,6 @@ function formPrac() {
     this.age.value = '';
   }
 }
+
+
 
