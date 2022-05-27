@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src = 'dom4.js'></script>
+  <style>
+    table {
+      text-align: center;
+      width: 50%;
+      border: 1px solid;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid;
+    }
+    th {
+      font-size: large;
+      background: tomato;
+    } 
+    tr:nth-child(even) {
+      background: bisque;
+    }
+  </style>
+</head>
+<body>
+  <form name = "frm">
+    first_name : <input type = "text" name = "fname" value = "길동"><br>
+    last_name : <input type = "text" name = "lname" value = "홍"><br>
+    phone : <input type = "tel" name = "phone" value = "010-1111-2222"><br>
+    age : <input type = "number" name = "age" value = "20"><br>
+    <input type = "submit" value = "저장">
+    <input type = "button" id = "delete" value = "선택삭제">
+  </form>
+  <hr>
+  <table>
+    <thead>
+    <tr>
+        <th>선택</th>
+        <th>first_name</th>
+        <th>last_name</th>
+        <th>phone</th>
+        <th>age</th>
+        <th>삭제</th>
+      </tr>
+    </thead>
+    <tbody id = "list">
+      <tr>
+        <!-- <td><input type = "checkbox" name = "check"></td>
+        <td>길동</td>
+        <td>홍</td>
+        <td>010-1111-2222</td>
+        <td>20</td>
+        <td><button>삭제</button></td> -->
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>
