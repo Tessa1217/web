@@ -90,3 +90,20 @@ let arr2_concat = arr2.reduce((accum, val, idx, ary) => {
 }, []);
 console.log(arr2_concat);
 
+arr2 = [1, 2, [3, 4], [5, 6, 7, [10, 11, {name:"hong", age:20}]]];
+arr2[0]; // 1
+arr2[2] // [3, 4]
+arr2[2][0]; // 3
+arr2[3][3][2]['name'];
+
+let arr_concat = arr2.reduce((accum, el) => {
+  return accum.concat(el);
+}, []);
+console.log(arr_concat)
+
+arr2 = [1, [2, 3], 4, [5, 6, [7, 8, 9]]];
+arr_concat = arr2.reduce((accum, el) => {
+  return accum.concat(el); 
+}, [])
+console.log(arr_concat);
+console.log(arr2.join().split(","));
