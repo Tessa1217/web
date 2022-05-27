@@ -31,9 +31,30 @@
       color: violet !important;
     }
   </style> 
-  <script src = "ch05/array.js"></script>
+  <script src = "ch07/dom3.js"></script>
 </head>
 <body>
+  이름: <input type = "text" name = "" id = "name" value = "홍길동"><br>
+  나이: <input type = "number" name = "" id = "age" value = 20><br>
+  <button>입력</button>
+  <hr>
+  <!-- <ul id = "list"></ul> -->
+  <table>
+    <thead>
+      <th>이름</th>
+      <th>나이</th>
+    </thead>
+    <tbody id = "list">
+    </tbody>
+  </table>
+  <div style = "display:none;">
+    <table>
+      <tr id = "result">
+        <td>홍길동</td>
+        <td>20</td>
+      </tr>
+    </table>
+  </div>
   <script>
     //console.log('Hello, World');
   </script>
