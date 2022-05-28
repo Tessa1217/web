@@ -45,9 +45,6 @@ function formPrac() {
     }
     dataInput(members);
 
-
- 
-
   // 선택 삭제
   let sdelete = document.querySelector('#delete');
   sdelete.addEventListener('click', delCheck);
@@ -59,6 +56,7 @@ function formPrac() {
       }
     })
   }
+
   document.forms.frm.onsubmit = function(ev) {
     ev.preventDefault();
     // 사용자 입력값
