@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>api.html</title>
+  <script src = 'api.js'></script>
+  <style>
+    #show {
+      width: 90%;
+      margin: 2% auto;
+    }
+    table {
+      border-collapse: collapse;
+      text-align: center;
+    }
+    th {
+      background: #000;
+      color: #fff;
+    }
+    tr:nth-child(even) {
+      background: #eee;
+    }
+    input[type="text"], input[type="button"] {
+      margin-bottom: 2%;
+    }
+    #show > a {
+      margin: 0.5%;
+      display: inline-block;
+      width: 2%;
+      padding: 0.22%;
+      background: #000;
+      border-radius: 5px;
+      text-decoration: none;
+      color: #fff;
+      text-align: center;
+    }
+    p {
+      text-align: right;
+      border: 1px solid;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div id = "show">
+    <input type = "text" name = "search" value = "" placeholder = "센터를 검색해주세요">
+    <input type = "button" value = "센터찾기">
+    <input type = "button" name = "back" value = "전체목록">
+  </div>
+</body>
+</html>
