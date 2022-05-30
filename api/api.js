@@ -11,11 +11,14 @@ function mainFunc() {
     if (xhtp.readyState == 4 && xhtp.status == 200) {
       let result = JSON.parse(xhtp.responseText);
       dataAry = result.data;
-      let sido = dataAry.reduce((ary, el) => {
-        return ary.concat(el.sido);
-      }, []);
-      sido = new Set(sido);
-      console.log(sido);
+      // let sido = dataAry.reduce((ary, el) => {
+      //   return ary.concat(el.sido);
+      // }, []);
+      // sido = new Set(sido);
+      // 세트로 지역 담기
+      let sido = dataAry.reduce((set, el) => {
+        return set.add(el.sido);
+      }, new Set());
       let select = document.createElement('select');
       select.setAttribute('id', 'selection');
       sido.forEach((el) => {
