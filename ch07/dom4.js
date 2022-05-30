@@ -6,44 +6,33 @@ function formPrac() {
   // console.log(document.forms.frm.age.value);
 
   let members = [
-    {first_name: '임경',
+    {member_id: 1, 
+    first_name: '임경',
     last_name: '정',
     phone: '010-1111-2222',
-    age: 20},
-    {first_name: '근형',
-      last_name: '박',
+    age: 20
+    },
+    {member_id: 2, 
+    first_name: '근형',
+    last_name: '박',
     phone: '010-3333-4444',
     age: 21},
-    {first_name: '진형',
-      last_name: '김',
+    {member_id: 3, 
+    first_name: '진형',
+    last_name: '김',
     phone: '010-5555-6666',
     age: 20}];
 
-    function dataInput(ary = []) {
-      let tr, td, btn, chk;
-      ary.forEach((elem, idx) => {
-        tr = document.createElement('tr');
-        console.log(tr);
-        td = document.createElement('td');
-        chk = document.createElement('input');
-        chk.setAttribute('type', 'checkbox');
-        td.append(chk);
-        tr.append(td);
-        for (let field in elem) {
-          td = document.createElement('td');
-          td.innerText = elem[field];
-          tr.append(td);
-        }
-        td = document.createElement('td');
-        btn = document.createElement('button');
-        btn.innerText = "삭제";
-        btn.addEventListener('click', (e) => e.target.parentElement.parentElement.remove())
-        td.append(btn);
-        tr.append(td);
-        document.querySelector('#list').append(tr);
-      })
-    }
-    dataInput(members);
+    members.forEach((member) => {
+      let ary = [];
+      for (let field in member) {
+        ary.push(member[field]);
+      }
+      makeRow(ary);
+    });
+   
+
+
 
   // 선택 삭제
   let sdelete = document.querySelector('#delete');
@@ -64,17 +53,57 @@ function formPrac() {
     let last_name = this.lname.value;
     let phone = this.phone.value;
     let age = this.age.value;
+    let id = parseInt(document.querySelector('#list > tr:last-Child').children[1].innerHTML) + 1;
     if (!first_name || !last_name || !phone || !age) {
       return alert("값을 입력해주세요");
     } else {
-      let inputAry = [{first_name, last_name, phone, age}];
-      dataInput(inputAry);
-      console.log(this);
+      let ary = [id, first_name, last_name, phone, age];
+      makeRow(ary);
       this.fname.value = '';
       this.lname.value = '';
       this.phone.value = '';
       this.age.value = '';
     }
+  }
+      function makeRow(ary) {
+        let tr, td, chk, btn;
+        tr = document.createElement('tr');
+        tr.setAttribute('id', 'member_' + ary[0]);
+        tr.addEventListener('click', function() {
+          document.forms.frm.fname.value = tr.children[2].innerHTML;
+          document.forms.frm.lname.value = tr.children[3].innerHTML;
+          document.forms.frm.phone.value = tr.children[4].innerHTML;
+          document.forms.frm.age.value = tr.children[5].innerHTML;
+        }, false);
+        ary.forEach((elem, ind) => {
+          if (ind == 0) {
+            td = document.createElement('td');
+            chk = document.createElement('input');
+            chk.setAttribute('type', 'checkbox');
+            td.append(chk);
+            tr.append(td);
+          }
+          td = document.createElement('td');
+          td.innerText = elem;
+          // tr.setAttribute('id', 'member_' + ary)
+          tr.append(td);
+          if (ind == ary.length - 1) {
+            td = document.createElement('td');
+            btn = document.createElement('button');
+            btn.innerText = "삭제";
+            btn.addEventListener('click', (e) => {
+              e.stopPropagation(); 
+              e.target.parentElement.parentElement.remove()}, true); // false:bubbling, true: capturing
+            td.append(btn);
+            tr.append(td);
+            console.log(tr);
+            document.getElementById('list').append(tr);
+          }
+        })
+    }
+  
+
+    
     // document.querySelectorAll('form>input').forEach(elem => {
     //   if (elem.type == 'text' || elem.type == 'number' || elem.type == 'tel') {
     //     inValues.push(elem.value);
@@ -117,7 +146,7 @@ function formPrac() {
     // document.getElementById('list').append(trTag);
     
   }
-}
+
 
 
 
