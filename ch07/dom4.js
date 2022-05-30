@@ -32,8 +32,6 @@ function formPrac() {
     });
    
 
-
-
   // 선택 삭제
   let sdelete = document.querySelector('#delete');
   sdelete.addEventListener('click', delCheck);
@@ -44,6 +42,26 @@ function formPrac() {
         chk.parentElement.parentElement.remove(); 
       }
     })
+  }
+
+  // 변경 버튼
+  let change = document.getElementById('revise');
+  change.addEventListener('click', revision);
+  function revision() {
+    let key = document.forms.frm.member_id.value;
+    let tr = document.getElementById('member_' + key);
+    tr.children[4].innerText = document.forms.frm.phone.value;
+    tr.children[5].innerText = document.forms.frm.age.value;
+    removeElem(); 
+  }
+
+  // 입력이나 변경 후에 폼에 있는 요소 값들 지우기
+  function removeElem() {
+    let form = document.forms.frm;
+    form.fname.value = '';
+    form.lname.value = '';
+    form.phone.value = '';
+    form.age.value = '';
   }
 
   document.forms.frm.onsubmit = function(ev) {
@@ -59,10 +77,7 @@ function formPrac() {
     } else {
       let ary = [id, first_name, last_name, phone, age];
       makeRow(ary);
-      this.fname.value = '';
-      this.lname.value = '';
-      this.phone.value = '';
-      this.age.value = '';
+      removeElem();
     }
   }
       function makeRow(ary) {
@@ -70,6 +85,7 @@ function formPrac() {
         tr = document.createElement('tr');
         tr.setAttribute('id', 'member_' + ary[0]);
         tr.addEventListener('click', function() {
+          document.forms.frm.member_id.value = tr.children[1].innerHTML;
           document.forms.frm.fname.value = tr.children[2].innerHTML;
           document.forms.frm.lname.value = tr.children[3].innerHTML;
           document.forms.frm.phone.value = tr.children[4].innerHTML;
@@ -96,7 +112,6 @@ function formPrac() {
               e.target.parentElement.parentElement.remove()}, true); // false:bubbling, true: capturing
             td.append(btn);
             tr.append(td);
-            console.log(tr);
             document.getElementById('list').append(tr);
           }
         })
