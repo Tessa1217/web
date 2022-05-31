@@ -28,6 +28,7 @@ function mainFunc() {
        
     document.forms.frm.onsubmit = function(ev) {
         ev.preventDefault(); 
+        // Page 이동 기능 차단
         let fname = this.fname.value;
         let lname = this.lname.value;
         let phone = this.phone.value;
