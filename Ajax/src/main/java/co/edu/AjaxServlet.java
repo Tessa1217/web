@@ -79,7 +79,6 @@ public class AjaxServlet extends HttpServlet {
 		String job = request.getParameter("job");
 
 		Employee emp = new Employee();
-		emp.setEmployeeId(Integer.parseInt(empId));
 		emp.setFirstName(fname);
 		emp.setLastName(lname);
 		emp.setEmail(email);
@@ -88,10 +87,11 @@ public class AjaxServlet extends HttpServlet {
 
 		EmpDAO dao = new EmpDAO();
 
-		if (cmd.equals("insert")) {
+		if (cmd.equals("insert")) { // 데이터 삽입
 			dao.insert(emp);
 			System.out.println(emp);
-		} else if (cmd.equals("update")) {
+		} else if (cmd.equals("update")) { // 수정
+			emp.setEmployeeId(Integer.parseInt(empId));
 			if (dao.update(emp) == null) {
 				// {"retCode":"error"}
 				System.out.println("error");

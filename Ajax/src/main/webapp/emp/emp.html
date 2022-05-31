@@ -57,6 +57,16 @@
   
   
   <script>	
+  
+  function ajaxPost(CallBackFunc) {
+	  let fname = myform.fname.value;
+	  let lname = myform.lname.value;
+	  let email = myform.email.value;
+	  let job = myform.job.value;
+	  let hdate = myform.hdate.value;
+	  let cmd = myform.cmd.value;
+	  let empId = myform.empId.value;
+  }
 		// 리스트 출력 부분 
 		let myform = '';
   	let xhtp = new XMLHttpRequest(); 
@@ -97,6 +107,7 @@
   	function makeTr(emp) {
   	  let tr = document.createElement('tr');
   	  tr.addEventListener('click', trClick);
+  	  tr.setAttribute('id', 'key_' + emp.employeeId);
   	  fields.forEach((field) => {
   	  	let td = document.createElement('td');
   	  	td.innerText = emp[field];
@@ -123,8 +134,6 @@
   		e.preventDefault(); 
   		myform.cmd.value = 'update';
   		let empId = myform.empId.value;
-  		empId = parseInt(empId);
-  		console.log(empId, typeof empId);
   		let fname = myform.fname.value;
   		let lname = myform.lname.value;
   		let email = myform.email.value;
@@ -138,7 +147,14 @@
   		xhtp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
   		xhtp.send(params);
   		xhtp.onload = function() {
-  			console.log(xhtp.responseText);
+  			let result = JSON.parse(xhtp.responseText);
+  			console.log(result);
+  			console.log('key_' + result.employeeId);
+  			let oldTr = document.getElementById('key_' + result.employeeId);
+  			console.log(oldTr);
+  			let newTr = makeTr(result);
+  			console.log(newTr);
+  			oldTr.parentNode.replaceChild(newTr, oldTr);
   		}
   	});
   </script>
