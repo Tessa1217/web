@@ -71,6 +71,8 @@ public class AjaxServlet extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=utf-8");
 		String cmd = request.getParameter("cmd");
+		System.out.println(request);
+		System.out.println(cmd);
 		String empId = request.getParameter("empId");
 		String fname = request.getParameter("fname");
 		String lname = request.getParameter("lname");
@@ -97,6 +99,13 @@ public class AjaxServlet extends HttpServlet {
 				System.out.println("error");
 			} else {
 				// {"retCode":"success"}
+				System.out.println("success");
+			}
+		} else if (cmd.equals("delete")) {
+			emp.setEmployeeId(Integer.parseInt(empId));
+			if (dao.delete(emp) == null) {
+				System.out.println("error");
+			} else {
 				System.out.println("success");
 			}
 		}

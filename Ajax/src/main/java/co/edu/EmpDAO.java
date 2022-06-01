@@ -8,7 +8,7 @@ public class EmpDAO extends DAO {
 
 	// 리스트 가져오기
 	public List<Employee> empList() {
-		String sql = "SELECT * FROM EMP_TEMP";
+		String sql = "SELECT * FROM EMP_TEMP ORDER BY 1";
 		List<Employee> eList = new ArrayList<Employee>();
 		connect();
 		try {
@@ -89,23 +89,28 @@ public class EmpDAO extends DAO {
 		}
 		return null;
 	}
-//
-//	// 삭제
-//	public int delete() {
-//		int delete = -1;
-//		String sql = "DELETE FROM EMP_TEMP WHERE ";
-//		connect();
-//		try {
-//			psmt = con.prepareStatement(sql);
-//			delete = psmt.executeUpdate();
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		} finally {
-//			disconnect();
-//		}
-//		return delete;
-//	}
-//
+
+	// 삭제
+	public Employee delete(Employee emp) {
+		int delete = -1;
+		String sql = "DELETE FROM EMP_TEMP WHERE EMPLOYEE_ID = ?";
+		connect();
+		try {
+			psmt = con.prepareStatement(sql);
+			psmt.setInt(1, emp.getEmployeeId());
+			delete = psmt.executeUpdate();
+			if (delete > 0) {
+				System.out.println(delete + "건 삭제되었습니다.");
+				return emp;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		return null;
+	}
+
 //	// 한 건 조회
 //	public Employee search() {
 //		String sql = "";

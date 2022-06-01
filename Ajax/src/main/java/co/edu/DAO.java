@@ -13,11 +13,14 @@ public class DAO {
 	ResultSet rs;
 	private String url = "jdbc:oracle:thin:@localhost:1521:xe";
 	private String driver = "oracle.jdbc.OracleDriver";
+	private String url2 = "jdbc:oracle:thin:@javadb_high?TNS_ADMIN=/Users/tessa/Wallet_javadb";
 
 	public void connect() {
 		try {
 			Class.forName(driver);
-			con = DriverManager.getConnection(url, "hr", "hr");
+//			con = DriverManager.getConnection(url, "hr", "hr");
+			con = DriverManager.getConnection(url2, "ADMIN", "myJavaDB0508");
+			System.out.println("DB Connected");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e1) {
