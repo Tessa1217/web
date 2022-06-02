@@ -92,7 +92,8 @@ public class AjaxServlet extends HttpServlet {
 			System.out.println(emp);
 		} else if (cmd.equals("update")) { // 수정
 			emp.setEmployeeId(Integer.parseInt(empId));
-			if (dao.update(emp) == null) {
+			emp = dao.update(emp);
+			if (emp == null) {
 				// {"retCode":"error"}
 				System.out.println("error");
 			} else {
@@ -101,7 +102,8 @@ public class AjaxServlet extends HttpServlet {
 			}
 		} else if (cmd.equals("delete")) {
 			emp.setEmployeeId(Integer.parseInt(empId));
-			if (dao.delete(emp) == null) {
+			emp = dao.delete(emp);
+			if (emp == null) {
 				System.out.println("error");
 			} else {
 				System.out.println("success");

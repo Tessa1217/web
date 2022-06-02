@@ -16,6 +16,8 @@ function mainFunc() {
 		}
 		params = params.join('&');
 		
+		
+		
 		let xhtp = new XMLHttpRequest(); 
 		xhtp.open('POST', '../ajax.do');
 		xhtp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
