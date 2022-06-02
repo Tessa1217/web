@@ -71,8 +71,6 @@ public class AjaxServlet extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=utf-8");
 		String cmd = request.getParameter("cmd");
-		System.out.println(request);
-		System.out.println(cmd);
 		String empId = request.getParameter("empId");
 		String fname = request.getParameter("fname");
 		String lname = request.getParameter("lname");
@@ -90,7 +88,7 @@ public class AjaxServlet extends HttpServlet {
 		EmpDAO dao = new EmpDAO();
 
 		if (cmd.equals("insert")) { // 데이터 삽입
-			dao.insert(emp);
+			emp = dao.insert(emp);
 			System.out.println(emp);
 		} else if (cmd.equals("update")) { // 수정
 			emp.setEmployeeId(Integer.parseInt(empId));

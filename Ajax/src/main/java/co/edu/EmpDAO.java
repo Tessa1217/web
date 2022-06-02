@@ -2,9 +2,28 @@ package co.edu;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class EmpDAO extends DAO {
+
+	// 차트
+	public Map<String, Integer> getMemberByDept() {
+		connect();
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		String sql = "SELECT D.DEPARTMENT_NAME, COUNT(1) AS CNT FROM EMPLOYEES E, DEPARTMENTS D WHERE E.DEPARTMENT_ID = D.DEPARTMENT_ID GROUP BY D.DEPARTMENT_NAME";
+		try {
+			psmt = con.prepareStatement(sql);
+			rs = psmt.executeQuery();
+			while (rs.next()) {
+				map.put(rs.getString("department_name"), rs.getInt("cnt"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return map;
+	}
 
 	// 리스트 가져오기
 	public List<Employee> empList() {

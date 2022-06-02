@@ -1,43 +1,28 @@
 document.addEventListener('DOMContentLoaded', mainFunc);
 function mainFunc() {
-	
+	let myform = document.forms.frm;
 	function ajaxPost(CallBackFunc) {
-		let paramName = ['empId', 'cmd', 'fname', 'lname', 'email', 'hdate', 'job'];
-		let empId = myform.empId.value;
-		let fname = myform.fname.value;
-  		let lname = myform.lname.value;
-  		let email = myform.email.value;
-  		let hdate = myform.hdate.value;
-  		let job = myform.job.value;
-  		if (CallBackFunc == ajaxChange) {
+		if (CallBackFunc == ajaxChange) {
 			myform.cmd.value = 'update';
 		} else if (CallBackFunc == ajaxDelete) {
 			myform.cmd.value = 'delete';
+		} else if (CallBackFunc == ajaxInsert) {
+			myform.empId.value = '1';
 		}
-  		let cmd = myform.cmd.value;
-  		let paramAry = [empId, cmd, fname, lname, email, hdate, job];
-  		let params = '';
-  		if (CallBackFunc == ajaxInsert) {
-			for (let i = 1; i < paramAry.length; i++) {
-				params += `${paramName[i]}=${paramAry[i]}`;
-				if (i != paramAry.length - 1) {
-					params += '&';
-				}
-			}
-		} else if (CallBackFunc == ajaxChange || CallBackFunc == ajaxDelete){
-			paramAry.forEach((parameter, idx) => {
-				params += `${paramName[idx]}=${parameter}`;
-				if (idx != paramAry.length - 1) {
-					params += '&';
-				}
-			});	
-		} 
+		let formData = new FormData(myform);
+		let params = [];
+		for (let data of formData.entries()) {
+			params.push(`${data[0]}=${data[1]}`);
+		}
+		params = params.join('&');
+		
 		let xhtp = new XMLHttpRequest(); 
 		xhtp.open('POST', '../ajax.do');
 		xhtp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 		xhtp.send(params);
 		xhtp.onload = function() {
 			let data = JSON.parse(xhtp.responseText);
+			console.log(data);
 			CallBackFunc(data);
 		}
 		resetValue(); 
@@ -67,7 +52,6 @@ function mainFunc() {
 	
 	let fields = ['employeeId', 'firstName', 'lastName', 'email', 'hireDate', 'jobId'];
 	let tbody = document.getElementById('list');
-	let myform = document.forms.frm;
 	let xhtp = new XMLHttpRequest(); 
 	xhtp.open('GET', '../ajax.do?job=json');
 	xhtp.send(); 
