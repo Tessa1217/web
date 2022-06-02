@@ -78,35 +78,28 @@ function mainFunc() {
 	}
 	
 	let del = document.getElementById('delete');
+	let valFields = ['empId', 'fname', 'lname', 'email', 'hdate', 'job'];
 	del.addEventListener('click', function() {
 		let delCheck = document.querySelectorAll('tr input[type="checkbox"]');
-		
 		for (let check of delCheck) {
 			if (check.checked == true) {
-				let param = '';
-				param += 'cmd=delete&';
+				let param = 'cmd=delete&';
 				let child = check.parentElement.parentElement.children;
-				let fields = ['empId', 'fname', 'lname', 'email', 'hdate', 'job'];
-				for (let c of child) {
-					console.log(c.innerText);
-				}
-				fields.forEach((field, idx) => {
-					if (idx == 4) {
-						param += `${field}=${child[idx].innerText.substring(0, 10)}`;
-					} else {
-						param += `${field}=${child[idx].innerText}`;
-					}
+				valFields.forEach((field, idx) => {
+					if (idx == 4) {param += `${field}=${child[idx].innerText.substring(0, 10)}`;} 
+					else {param += `${field}=${child[idx].innerText}`;}
 					if (idx < child.length - 2) {
 						param += '&';
 					} 
 				})
-				console.log(param);
 				fetch ('../ajax.do', {
 					method: 'POST', 
 					headers: {'Content-Type':'application/x-www-form-urlencoded'},
 					body: param
-				}).then(result => result.json()).then(json => deleteList(json))
-				.catch(err => console.log(err))
+				})
+					.then(result => result.json())
+					.then(json => deleteList(json))
+					.catch(err => console.log(err))
 			}
 		}
 	});
