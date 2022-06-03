@@ -18,8 +18,8 @@ public class DAO {
 	public void connect() {
 		try {
 			Class.forName(driver);
-//			con = DriverManager.getConnection(url, "hr", "hr");
-			con = DriverManager.getConnection(url2, "ADMIN", "myJavaDB0508");
+			con = DriverManager.getConnection(url, "hr", "hr");
+//			con = DriverManager.getConnection(url2, "ADMIN", "myJavaDB0508");
 			System.out.println("DB Connected");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
