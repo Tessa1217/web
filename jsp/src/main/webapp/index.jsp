@@ -14,5 +14,23 @@
 		<input type="submit" value="요청"> <!-- 포스트 방식 -->
 	</form>
 	<a href = "sample.html?name=홍길동&age=20">Sample 페이지</a> <!-- GET 방식 -->
+	<script>
+		let xhtp = new XMLHttpRequest(); 
+		xhtp.open('GET', 'testServ'); 
+		xhtp.send(); 
+		xhtp.onload = function() {
+			// XML 데이터
+			let result = xhtp.responseXML;
+			console.log(result);
+			let names = result.getElementsByTagName('name');
+			console.log(names);
+			for(let i = 0; i < names.length; i++) {
+				console.log(names[i].textContent);
+				let p = document.createElement('p');
+				p.textContent = names[i].textContent;
+				document.body.append(p);
+			}
+		}
+	</script>
 </body>
 </html>
