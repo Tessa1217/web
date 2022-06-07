@@ -26,8 +26,11 @@ public class FrontController extends HttpServlet {
 
     // 요청과 처리 명령어를 연결하는 부분 (Command Mapper)
 	public void init(ServletConfig config) throws ServletException {
-		// Mapping
+		// Mapping (요청 집단) 
+		// Key = Page, Val = Page에 해당하는 커맨드 클래스
 		map.put("/test.do", new TestCommand()); 
+		map.put("/sample.do", new SampleCommand());
+		map.put("/memberList.do", new MemberListCommand());
 	}
 	
 	// 들어온 요청 분석하고 명령을 실행해서 결과를 돌려보내주는 곳
@@ -35,19 +38,22 @@ public class FrontController extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8"); // 한글 깨짐 방지
 		
-		String uri = request.getRequestURI(); // 요청 URI
-		String contextPath = request.getContextPath(); // 요청 context path (Root directory info)
-		String page = uri.substring(contextPath.length()); // 요청 URI - Context Path = 실제 요청 페이지
+		String uri = request.getRequestURI(); // 요청 URI, jspprj/test.do
+		String contextPath = request.getContextPath(); // 요청 context path (Root directory info), /jspprj
+		String page = uri.substring(contextPath.length()); // 요청 URI - Context Path = 실제 요청 페이지, /test.do
+															// Map의 키 값에 해당
 		
-		Command cmd = map.get(page); // 실행할 명령 객체를 찾음 (실행할 커멘드) => new TestCommand(); 
+		Command cmd = map.get(page); // 키 값인 page를 통해서 요청 집단인 map 안의 실행할 명령 객체를 찾음 (실행할 커멘드) 
 		String viewPage = cmd.exec(request, response); // 명령을 실행하고 결과를 돌려받음 (보여줄 페이지 담김) 
 		
 		// 돌려받은 결과값의 마지막 문자열이 .do가 포함되어 있지 않다면, 
 		if (!viewPage.endsWith(".do") && !viewPage.equals(null)) { // view resolve 
+			// View Resolve - 여러 개의 JSP 파일 중 어떤 JSP가 적절한지 선택하게 해주는 것
+	
 			// WEB-INF 밑에 있는 페이지는 서버에서만 접근 가능하기 때문에 서버에서 접근 가능하게 처리
 			viewPage = "/WEB-INF/jsp/" + viewPage + ".jsp";
 		}
-		
+
 		// 결과 페이지를 돌려보내주는 과정 (원래 전달하려는 값을 최종 페이지까지 전달 가능)
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
 		dispatcher.forward(request, response);
