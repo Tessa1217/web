@@ -35,12 +35,73 @@
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
+    <!-- lombok -->
     <dependency>
       <groupId>org.projectlombok</groupId>
 	  <artifactId>lombok</artifactId>
 	  <version>1.18.24</version>
 	  <scope>provided</scope>
     </dependency>
+    <!-- MyBatis -->
+    <dependency>
+  	  <groupId>org.mybatis</groupId>
+      <artifactId>mybatis</artifactId>
+      <version>3.5.10</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc8 -->
+	<dependency>
+      <groupId>com.oracle.database.jdbc</groupId>
+      <artifactId>ojdbc8</artifactId>
+      <version>19.14.0.0</version>
+	</dependency>
+	<dependency>
+	  <groupId>com.oracle.database.jdbc</groupId>
+	  <artifactId>ojdbc10</artifactId>
+	  <version>19.14.0.0</version>
+    </dependency>
+	<!-- https://mvnrepository.com/artifact/com.oracle.database.jdbc/ucp -->
+	<dependency>
+	  <groupId>com.oracle.database.jdbc</groupId>
+	  <artifactId>ucp</artifactId>
+	  <version>21.5.0.0</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/com.oracle.ojdbc/ons -->
+	<dependency>
+	  <groupId>com.oracle.ojdbc</groupId>
+	  <artifactId>ons</artifactId>
+	  <version>19.3.0.0</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/com.oracle.database.security/oraclepki -->
+	<dependency>
+      <groupId>com.oracle.database.security</groupId>
+      <artifactId>oraclepki</artifactId>
+      <version>19.3.0.0</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/com.oracle.database.security/osdt_core -->
+	<dependency>
+	  <groupId>com.oracle.database.security</groupId>
+	  <artifactId>osdt_core</artifactId>
+	  <version>19.3.0.0</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/com.oracle.database.security/osdt_cert -->
+	<dependency>
+      <groupId>com.oracle.database.security</groupId>
+	  <artifactId>osdt_cert</artifactId>
+	  <version>19.3.0.0</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/com.oracle.database.ha/simplefan -->
+	<!-- https://mvnrepository.com/artifact/com.oracle.database.xml/xdb -->
+	<dependency>
+	  <groupId>com.oracle.database.xml</groupId>
+	  <artifactId>xdb</artifactId>
+	  <version>19.3.0.0</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/com.oracle.database.xml/xmlparserv2 -->
+	<dependency>
+      <groupId>com.oracle.database.xml</groupId>
+	  <artifactId>xmlparserv2</artifactId>
+	  <version>21.5.0.0</version>
+	</dependency>
   </dependencies>
 
   <build>

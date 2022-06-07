@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace에 Mapper Interface 명을 삽입 -->
+<mapper namespace="co.edu.jspprj.employee.service.EmployeeMapper">
+	<select id="empSelectList" resultType="co.edu.jspprj.employee.vo.EmployeeVO">
+		SELECT * FROM EMP_TEMP
+	</select>
+	<!-- 
+	<select id="empSelect">
+		SELECT * FROM EMP_TEMP WHERE ;
+	</select>
+	<insert id="empInsert">
+		INSERT INTO EMP_TEMP VALUES();
+	</insert>
+	<update id="empUpdate">
+		UPDATE EMP_TEMP SET ;
+	</update>
+	<delete id="empDelete">
+		DELETE FROM EMP_TEMP WHERE ;
+	</delete>
+	-->
+</mapper>
