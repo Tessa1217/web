@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- dtd 3.1로 변경 -->
+<!-- deployment descriptor 3.1로 변경 -->
 <web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
@@ -8,4 +8,15 @@
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
+	<servlet>
+		<servlet-name>First</servlet-name>
+		<!-- 패키지 명을 포함한 Full name -->
+		<!-- 해당 이름을 가진 서블렛 파일을 위의 서블렛 이름으로 컨테이너에 올려둠 -->
+		<servlet-class>co.edu.jspprj.First</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>First</servlet-name>
+		<!-- URL 패턴이 url-pattern 형식으로 들어오면 해당 이름을 가진 서블렛을 실행 -->
+		<url-pattern>/First</url-pattern>
+	</servlet-mapping>
 </web-app>
