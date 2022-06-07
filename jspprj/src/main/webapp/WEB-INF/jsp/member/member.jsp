@@ -11,7 +11,7 @@
 <h1>회원목록</h1>
 <!-- EL 표현식 -->
 	<c:forEach items="${empList}" var="e">
-		${e.employeeId} : ${e.firstName} : ${e.lastName}<br>
+		${e.employeeId} : ${e.firstName} : ${e.lastName} : ${e.hireDate} : ${e.jobId} : ${e.salary} <br>
 	</c:forEach>
 </body>
 </html>

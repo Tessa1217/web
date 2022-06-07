@@ -2,21 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace에 Mapper Interface 명을 삽입 -->
 <mapper namespace="co.edu.jspprj.employee.service.EmployeeMapper">
-	<select id="empSelectList" resultType="co.edu.jspprj.employee.vo.EmployeeVO">
+	<select id="empSelectList" resultMap="empMapList">
+		<!-- SELECT employee_id as employeeId, first_name as firstName, 
+		last_name as lastName, email, hire_date as hireDate,
+		job_id as jobId, salary FROM EMP_TEMP -->
 		SELECT * FROM EMP_TEMP
 	</select>
-	<!-- 
-	<select id="empSelect">
-		SELECT * FROM EMP_TEMP WHERE ;
+	<resultMap type="co.edu.jspprj.employee.vo.EmployeeVO" id="empMapList">
+		<result column="employee_id" property="employeeId"/>
+		<result column="first_name" property="firstName"/>
+		<result column="last_name" property="lastName"/>
+		<result column="email" property="email"/>
+		<result column="hire_date" property="hireDate"/>
+		<result column="job_id" property="jobId"/>
+		<result column="salary" property="salary"/>
+	</resultMap> 
+	<select id="empSelect" parameterType="int" resultType="co.edu.jspprj.employee.vo.EmployeeVO">
+		SELECT * FROM EMP_TEMP WHERE EMPLOYEE_ID=#{employeeId};
 	</select>
 	<insert id="empInsert">
-		INSERT INTO EMP_TEMP VALUES();
+		INSERT INTO EMP_TEMP VALUES
+		(#{employeeId}, #{firstName}, #{lastName}, #{email}, 
+		#{hireDate}, #{jobId}, #{salary});
 	</insert>
-	<update id="empUpdate">
+<!-- 	<update id="empUpdate">
 		UPDATE EMP_TEMP SET ;
 	</update>
 	<delete id="empDelete">
 		DELETE FROM EMP_TEMP WHERE ;
-	</delete>
-	-->
+	</delete> -->
 </mapper>
