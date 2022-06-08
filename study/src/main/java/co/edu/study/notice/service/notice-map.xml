@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.edu.study.notice.service.NoticeMapper">
+	<select id="noticeSelectList" resultType="NoticeVO">
+		SELECT * FROM NOTICE ORDER BY ID DESC
+	</select>
+	<select id="noticeSearchList" resultType="NoticeVO">
+		SELECT * FROM NOTICE WHERE 
+		<if test="key == 1"> 1=1 </if>
+		<if test="key == 2"> title like '%'|| #{val} ||'%' </if>
+		<if test="key == 3"> SUBJECT LIKE '%'|| #{val} ||'%'</if>
+	</select>
+	<select id="noticeSelect" parameterType="NoticeVO" resultType="NoticeVO">
+		SELECT * FROM NOTICE WHERE ID = #{id}
+	</select>
+	<insert id="noticeInsert" parameterType="NoticeVO">
+		INSERT INTO NOTICE VALUES(id_seq.nextval, #{writer}, #{title}, #{subject}, #{wdate}, DEFAULT)
+	</insert>
+	<update id="noticeUpdate" parameterType="NoticeVO">
+		UPDATE NOTICE
+		<set>
+			<if test="writer != null">WRITER = #{writer},</if>
+			<if test="title != null">TITLE = #{title},</if>
+			<if test="subject != null">SUBJECT = #{subject},</if> 
+			<if test="wdate != null">WDATE = #{wdate}</if>
+		</set> 
+		WHERE ID = #{id}
+	</update>
+	<delete id="noticeDelete" parameterType="NoticeVO">
+		DELETE FROM NOTICE WHERE ID = #{id} 
+	</delete>
+	<update id="noticeHitUpdate" parameterType="int">
+		UPDATE NOTICE SET HIT = HIT + 1 WHERE ID = #{id}
+	</update>
+</mapper>

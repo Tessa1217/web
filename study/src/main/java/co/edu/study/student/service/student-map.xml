@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.edu.study.student.service.StudentMapper">
+	<select id="selectStudentList" resultType="StudentVO">
+		SELECT * FROM STUDENT
+	</select>
+	<select id="selectStudent" parameterType="StudentVO" resultType="StudentVO">
+		SELECT STUDENT_ID AS STUDENTID, NAME, BIRTHDAY, MAJOR,
+		ADDRESS, TEL, AUTHOR, PASSWORD FROM STUDENT WHERE STUDENT_ID = #{studentId}
+		<if test="#{password != null}">AND PASSWORD=#{password}</if>
+	</select>
+	<insert id="insertStudent">
+	</insert>
+	<update id="updateStudent">
+	</update>
+	<delete id="deleteStudent">
+	</delete>
+</mapper>
