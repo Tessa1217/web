@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+  <div id="message">
+    <h1>My Message</h1>
+    <p></p>
+  </div>
+  <div id="jquery">
+    <h1 class="hs">제이쿼리</h1>
+    <h2 id="selector" class="hs">선택자</h2>
+    <h3 class="hs">직접 선택자</h3>
+    <h4>그룹 선택자</h4>
+  </div>
+  <script>
+    // Javascript
+    let mainFnc = function() {
+      console.log("hi");
+      $("#message h1").css('color','red');
+      // 변수도 넣을 수 있음
+      let h1Tag = document.getElementsByTagName('h1');
+      $(h1Tag).css('color', 'pink');
+    }
+    document.addEventListener('DOMContentLoaded', mainFnc);
+    // jQuery
+    $(document).ready(function() {
+      console.log("hi jquery");
+      $("p").text("Hello Everyone");
+      // Asterick
+      let asterick = $("*");
+      console.log(asterick);
+      asterick.css('margin', '10px auto');
+      asterick.css('width', '90%');
+      asterick = $("body *");
+      console.log(asterick);
+      // ID Selector
+      $("#jquery").css('background', 'beige');
+      // CSS 연속으로 가능
+      $("#selector").css('font-weight', 'bold').css('color', 'tomato');
+      // Class Selector
+      console.log($('.hs'));
+      let hslist = $('.hs');
+      for (let i = 0; i < hslist.length; i++) {
+        hslist[i].textContent += i;
+        hslist[i].style.border = "1px solid #000";
+      }
+      // Tag Selector
+      // addEventListener() =  on()
+      $('h1').css('padding', '20px');
+      // $('h1').on('mouseenter', () => {
+      //   $('h1').css('transform', 'scale(1.1)');
+      // })
+      // $('h1').on('mouseleave', () => {
+      //   $('h1').css('transform', 'scale(1.0)');
+      // })
+      $('h1').on({
+        mouseenter: function() {
+          $(this).css('transform', 'scale(1.1)');
+          $(this).css('transition', '0.3s');
+        }, mouseleave: function() {
+          $(this).css('transform', 'scale(1.0)');
+          $(this).css('transition', '0.3s');
+        }
+      })
+
+      // Group Selector
+      $('#title, .blue, h2, h4').css('font-weight', 'bold');
+
+      // dependent selector
+      $('h1.hs').text('제이쿼리');
+    })
+  </script>
+</body>
+</html>
