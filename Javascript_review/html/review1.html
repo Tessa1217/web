@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <ul>
+    <li id="apple">Apple</li>
+    <li id="banana">Banana</li>
+    <li id="pineapple">Pineapple</li>
+    <li id="orange">Orange</li>
+    <li id="strawberry">Strawberry</li>
+    <li id="watermelon">Watermelon</li>
+    <li id="lemon">Lemon</li>
+    <li id="avocado">Avocado</li>
+  </ul>
+  <script>
+    let uls = document.getElementsByTagName('ul');
+    let li = document.createElement('li');
+    li.setAttribute('id', 'grape');
+    li.innerHTML = "Grape";
+    // 마지막에 추가
+    uls[0].append(li);
+    li = document.createElement('li');
+    li.setAttribute('id', 'lychee');
+    li.innerHTML = "Lychee";
+    // 첫번째에 추가
+    uls[0].prepend(li);
+
+    let apple = document.getElementById('apple');
+    console.log(apple);
+    console.log(apple.innerHTML); // Apple
+    console.log(apple.nodeName); // LI
+    console.log(apple.nodeType); // 1 (Element Node)
+    console.log(apple.firstChild); // "Apple"
+  </script>
+</body>
+</html>
