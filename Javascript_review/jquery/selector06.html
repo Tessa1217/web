@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+  <div id="wrap">
+    <p>내용1</p>
+    <p style="display:none">내용2</p>
+    <p>내용3</p>
+  </div>
+  <form action="#">
+    <p id="zone1">
+      <select name="course" id="course">
+        <option value="opt1">경제</option>
+        <option value="opt2">사회</option>
+        <option value="opt3">수학</option>
+        <option value="opt4">미술</option>
+        <option value="opt5" selected>음악</option>
+        <option value="opt6">영어</option>
+      </select>
+    </p>
+    <p id="zone2">
+      <input type="checkbox" name="hobby1" value="Reading">Reading
+      <input type="checkbox" name="hobby2" value="Listening to music" checked>Sleeping
+      <input type="checkbox" name="hobby3" value="Sleeping" checked>Listening to music
+    </p>
+    <p id="zone3">
+      <input type="radio" name="gender" value="male"> Male
+      <input type="radio" name="gender" value="female" checked> Female
+    </p>
+  </form>
+  <script>
+    // hidden, visible
+    $('#wrap p:visible').css('display', 'none');
+    $('#wrap p:hidden').css('display', 'block');
+
+    // selected - select 박스의 선택된 값
+    console.log($('#course :selected').val());
+    console.log($('#course :selected').text());
+
+    // checked - checkbox, radio의 선택된 값 
+    let checked = $('#zone2 :checked');
+    checked.each((idx, elem) => {
+      console.log((idx+1) + "번째 체크값: " + elem.value);
+    });
+
+    console.log($('#zone3 :checked').val());
+  </script>
+</body>
+</html>

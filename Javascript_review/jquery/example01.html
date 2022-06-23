@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <title>Document</title>
+</head>
+<body>
+  <div id="info">
+    <form action="#" id="info_form">
+      <p>
+        <label for="user_name">이름</label>
+        <input type="text" id="user_name" name="user_name" autofocus placeholder="이름을 입력하세요">
+      </p>
+      <p>
+        <label for="user_dept">소속</label>
+        <select name="user_dept" id="user_dept">
+          <option value="학생" selected>학생</option>
+          <option value="교수">교수</option>
+        </select>
+      </p>
+      <p>
+        <label for="user_hobby">취미</label>
+        <input type="checkbox" name="user_hobby1" value="자전거" checked>자전거
+        <input type="checkbox" name="user_hobby2" value="독서">독서
+        <input type="checkbox" name="user_hobby3" value="유튜브 보기">유튜브 보기
+      </p>
+      <p>
+        <label for="user_gender">성별</label>
+        <input type="radio" name="gender" value="남자">남자
+        <input type="radio" name="gender" value="여자" checked>여자
+      </p>
+      <p><button type="button" name="input" id="input">등록</button></p>
+    </form>
+  </div>
+  <div id="show">
+    <table>
+      <thead>
+        <tr>
+          <th>이름</th>
+          <th>소속</th>
+          <th>취미1</th>
+          <th>취미2</th>
+          <th>취미3</th>
+          <th>성별</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+  <script>
+    $('#info_form, #show').css('width', '80%')
+    .css('margin', '10% auto')
+    .css('border', '4px solid #212576')
+    .css('padding', '2%');
+    $('table').css('width', '80%')
+    .css('margin', '3% auto');
+    $('table, th, td').css('border', '1px solid #000')
+    .css('border-collapse', 'collapse')
+    .css('text-align', 'center');
+    $('p').css('margin', '5%');
+
+    // document.querySelector('button').addEventListener('click', () => {
+    //   let i_list = document.querySelectorAll('#info_form p input');
+    //   let td_list = document.querySelectorAll('tbody td');
+      
+    //   td_list[0].innerHTML = document.querySelector('#user_name').value; 
+    //   td_list[1].innerHTML = document.querySelector('option[selected]').value;
+    //   let check_list = document.querySelectorAll('input[type="checkbox"]');
+    //   check_list.forEach((elem, idx) => {
+    //     if (elem.checked) {
+    //       td_list[idx + 2].innerHTML = elem.value;
+    //     }
+    //   })
+    //   let gender_list = document.querySelectorAll('input[type="radio"]');
+    //   gender_list.forEach((elem, idx) => {
+    //     if (elem.checked) {
+    //       td_list[td_list.length - 1].innerHTML = elem.value;
+    //     }
+    //   })
+    // })
+
+    $('button').on('click', function() {
+      // JS & jQuery
+      let tr = document.createElement('tr');
+      for(let i = 0; i < 6; i++) {
+        let td = document.createElement('td');
+        td.setAttribute('style', 'border:1px solid black');
+        tr.append(td);
+      }
+      tr.childNodes[0].innerHTML = $('#user_name').val();
+      tr.childNodes[1].innerHTML = $('#user_dept :selected').val();
+      let check_list = $('input[type="checkbox"]');
+      check_list.each((idx, elem) => {
+        if (elem.checked) {
+          tr.childNodes[idx+2].innerHTML = elem.value;
+        }
+      })
+      let radio = $('input[type="radio"]:checked').val();
+      tr.childNodes[5].innerHTML = radio;
+      document.querySelector('tbody').append(tr);
+
+      // jQuery
+      tr = $('<tr/>');
+      tr.append($('<td/>').text($('#user_name').val()));
+      tr.append($('<td/>').text($('#user_dept :selected').val()));
+      let check = $('input[type="checkbox"]');
+      check.each((idx, elem) => {
+        if (elem.checked) {
+          tr.append($('<td/>').text(elem.value));
+        } else {
+          tr.append($('<td/>'));
+        }
+      })
+      tr.append($('<td/>').text($('input[type="radio"]:checked').val()));
+      $('tbody').append(tr);
+      $('td').css('border', '1px solid #000');
+    })   
+  </script>
+</body>
+</html>
