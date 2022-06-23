@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+  <!-- 스크립트 위치의 중요성 -->
+  <script>
+    console.log(document.getElementsByTagName('h1'));
+    $(document).ready(function() {
+      console.log(document.getElementsByTagName('h1'));
+      // next - 기준으로 다음, 바로 인접한 형제 (h3)
+      $('h2').next().css('font-weight', 'bold').css('color', 'grey');
+      // 부모 선택자
+      let parent = $('#inner_wrap').parent(); 
+      console.log(parent);
+      parent.css('border', '1px dotted #000').css('padding', '3%');
+      // 하위 요소 선택자
+      $('#wrap #inner_wrap').css('text-align', 'center');
+      $('#wrap #inner_wrap h1, #wrap #inner_wrap h2, #wrap h3, #wrap p').css('margin', '5%').css('border', '1px solid #eee');
+      // 자식 요소 선택자
+      $('#inner_wrap > h1').css('text-align', 'left');
+      $('#content_wrap > h5').css('color', 'grey');
+      $('div > h1').css('border', '2px solid grey').css('padding', '2%');
+      console.log($('#content_wrap').children());
+      $('#content_wrap').children('h5').text('Child Element - 자식 요소로 선택');
+
+      $('#table_wrap').css('border', '2px solid grey').css('width', '90%').css('text-align', 'center')
+      .css('padding', '5%');
+      $('#table_wrap').children('table').css('border', '1px solid #000').css('border-collapse', 'collapse')
+      .css('width', '80%').css('margin', '5% auto');
+      $('table tr, td, th').css('border', '1px solid black');
+      console.log($('#table_wrap').prevAll());
+      // 동생(다음) 요소 선택자
+
+      $(function() {
+        // 형제 요소 선택자
+        $('tbody').prev().css('background-color', 'forestgreen').css('color', '#fff');
+        //동생(다음) 요소 선택자
+        console.log($('thead').next());
+        $('thead').next().css('background', 'beige');
+        console.log($('#wrap').next().next());
+        console.log($('#wrap').nextAll());
+      })
+
+      $(function() {
+        for (let i = 0; i < 6; i++) {
+          console.log($('tbody tr td').next());
+        }
+      })
+
+      $(function() {
+        // + 는 앞을 기준으로 바로 옆을 선택
+        $('#content p + p').css('color', 'blue');
+      })
+    });
+
+    // 범위제한 -> prevUntil, nextUntil
+
+    
+  </script>
+  <div>
+    <h1>Main Title</h1>
+  </div>
+  <div id="wrap">
+    <div id="inner_wrap">
+      <h1>Title1</h1>
+      <h2>Title2</h2>
+      <h3>Title3</h3>
+      <p>Content</p>
+        <div id="content_wrap">
+          <h5>Child Element1</h5>
+          <h5>Child Element2</h5>
+        </div>
+    </div>
+  </div>
+  <div id="table_wrap">
+    <div id="content">
+      <p>Content1</p>
+      <p>Content2</p>
+      <span>추가한 내용</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>컬럼1</th>
+          <th>컬럼2</th>
+          <th>컬럼3</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>2</td>
+          <td>3</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>5</td>
+          <td>6</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <script>
+    console.log(document.getElementsByTagName('h1'));
+    $('body').css('width', '80%').css('margin', '10% auto');
+    console.clear();
+    $(document).ready(function() {
+      // 상위 요소 선택자
+      $('.txt2').parents('div').css('border', '2px dotted black').css('padding', '3%');
+      // 가장 가까운 상위 요소 선택자 (기준으로부터 위로)
+      $('.txt1').closest('section').css('border', '4px solid black').css('margin', '2% 0%');
+      // 위치 상관없이 동급 요소 모두 선택
+      console.log($('tbody').siblings());
+    })
+  </script>
+  <div id="container">
+    <h1 class="title">Selector</h1>
+    <section>
+      <div>
+        <p class="txt1">Content</p>
+      </div>
+    </section>
+    <section>
+      <div>
+        <p class="txt2">Content2</p>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

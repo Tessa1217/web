@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+  <script>
+    // 탐색 선택자
+    $(document).ready(function() {
+      // console.log($('#menu'));
+      // $('#menu').children().get(3).innerHTML = "내용 변경4";
+      // $('#menu').children()[1].innerHTML = "내용 변경2";
+      // $('#menu').children().eq(0).text("내용 변경1");
+      // $($('#menu li')[2]).text('내용 변경3');
+      $('div:first').css('width', '80%').css('margin', '0 auto').css('border', '4px solid beige')
+      .css('padding', '3%');
+
+      $('#menu').prev().css('color', 'salmon');
+
+      //First, Last
+      $('#menu li').first().css('font-weight', 'bold');
+      $('#menu li:last').css('font-weight', 'bold');
+
+      // nth
+      $('#menu li:nth(2)').css('font-weight', 'bold');
+      for (let i = 0; i < $('#menu li').length; i++) {
+        $('#menu li:nth(' + i + ')').css('font-style', 'italic').css('text-decoration', 'underline');
+      }
+
+      // Odd, Even
+      $('#menu li:even').css('color', 'tomato');
+      $('#menu li:odd').css('color', 'forestgreen');
+
+      // Each
+      $('#menu li').each((idx, elem) => {
+        elem.innerHTML = '내용 변경' + (idx + 1);
+      })
+
+      let evenTag = $('#menu li:even');
+      evenTag.each((idx, elem) => {
+        elem.innerHTML += "(짝수)";
+      })
+
+      let oddTag = $('#menu li:odd');
+      oddTag.each((idx, elem) => {
+        elem.innerHTML += "(홀수)";
+      })
+
+      // Index 탐색: eq(), lt(), gt()
+      $('#menu li:eq(3)').text('내용을 수정합니다.').css('font-weight', 'bold');
+      // lt() = less than, gt() = greater than
+      $('#menu li:lt(3)').css('font-style', 'normal');
+      $('#menu li:gt(2)').text("3보다 큼");
+    })
+  </script>
+  <div>
+    <h1>탐색 선택자</h1>
+    <ul id="menu">
+      <li>내용1</li>
+      <li>내용2</li>
+      <li>내용3</li>
+      <li>내용4</li>
+      <li>내용5</li>
+    </ul>
+  </div>
+  <div>
+    <h1>탐색 선택자2</h1>
+    <ul>
+      <li>내용 1-1</li>
+      <li>내용 1-2</li>
+      <li>내용 1-3</li>
+    </ul>
+    <ul>
+      <li>내용 2-1</li>
+      <li>내용 2-2</li>
+      <li>내용 2-3</li>
+    </ul>
+    <ul>
+      <li></li>
+    </ul>
+  </div>
+  <script>
+    $('div:nth(1)').css('width', '80%')
+    .css('margin', '0 auto')
+    .css('border', '4px solid pink')
+    .css('padding', '3%');
+
+    // first-of-type, last-of-type (구조가 같은 경우)
+    $('div:nth(1) h1').css('color', 'grey');
+    $('div:nth(1) ul li:first-of-type').css('color', 'salmon');
+    $('div:nth(1) ul li:last-of-type').css('color', 'navy');
+    $('div:nth(1) ul').children().css('font-weight', 'bold');
+    // $('div:nth(1) ul li').each((idx, elem) => {
+    //  elem.addEventListener('mouseenter', () => {
+    //   elem.setAttribute('style', 'transform:scale(1.2)');
+    //  })
+    //  elem.addEventListener('mouseleave', () => {
+    //   elem.setAttribute('style', 'transform:scale(1.0)');
+    //  })
+    // })
+
+    // nth-child
+    $('div:nth(1) ul li:nth-child(2n)').css('text-decoration', 'underline');
+    // nth-last-of-type 하면 뒤에서 몇 번째 지정
+    $('div:nth(1) ul li:nth-last-of-type(1)').css('font-size', 'x-large');
+
+    // only-child, slice(start index, end index)
+    $('div:nth(1) li:only-child').text('only child');
+    $('div:nth(1) ul li').slice(1, 2).css('text-decoration', 'none');
+  </script>
+</body>
+</html>
