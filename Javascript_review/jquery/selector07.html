@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+
+  <script>
+    $('document').ready(function() {
+      $('#outer_wrap')
+        .css('width', '80%')
+        .css('margin', '5% auto')
+        .css('padding', '5%')
+        .css('border', '4px solid #DFF5CE')
+
+      // 태그가 가지고 있는 텍스트 검색 (요소 안쪽의 텍스트까지 검색) => contains()
+      $('#inner_1 p:contains(내용1)')
+        .css("color", '#476930')
+        .css("font-weight", 'bold')
+
+      // 검색하고자 하는 태그를 포함하고 있는 태그를 선별 -> has()
+      // 태그를 포함하고 있는 태그 자체를 반환 
+      // (strong 태그를 검색하지만 반환되는 건 해당 태그 포함한 P)
+      $('#inner_1 p:has(strong)')
+        .css('color', '#86B049')
+        .css('font-weight', 'bold')
+        .css('font-size', 'large')
+        .css('font-style', 'italic')
+
+      // 검색 조건 중 제외하고자 하는 것을 지정 -> not()
+      // 메소드 형태로도 가능
+      $('#inner_2 p:not(:first)')
+        .css('font-weight', 'bold')
+        .css('font-size', 'large')
+        .css('color', 'forestgreen')
+      $('#inner_2 p').not(':last')
+        .css('text-decoration', 'underline')
+    });
+  </script>
+
+  <div id="outer_wrap">
+    <h1>콘텐츠 탐색 선택자</h1>
+    <section id="inner_1">
+      <h1>contains(), has()</h1>
+      <p>
+        <span>내용1</span>
+      </p>
+      <p>
+        <span><strong>내용2</strong></span>
+      </p>
+      <p>
+        <span>내용3</span>
+      </p>
+    </section>
+    <section id="inner_2">
+      <h1>not()</h1>
+      <p>
+        <span>내용4</span>
+      </p>
+      <p>
+        <span>내용5</span>
+      </p>
+      <p>
+        <span>내용6</span>
+      </p>
+    </section>
+
+    <script>
+      $(document).ready(function() {
+        $('#outer_content')
+          .css('margin-top', '10%')
+        
+        // find() -> 하위 요소 중에서 검색
+        // 아이디가 id_1인 요소의 하위 요소를 모두 검색
+        $('#in_1').find(".txt1")
+          .css('color', 'navy')
+          .css('font-weight', 'bold')
+      
+        // filter() -> 선택한 요소 중에서 검색
+        // it_1 > p 태그 중 해당 속성을 가진 요소 검색
+        $('#in_1 p').filter('.txt2')
+          .css('color', '#0024DB')
+          .css('font-weight', 'bold')
+
+        // filter(function) => parameter idx, obj
+        $('#in_2 p').filter((idx, obj) => {
+          // console.log(idx, obj);
+          return idx % 2 == 0; 
+        })
+          .css('font-weight', 'bold')
+      });
+    </script>
+    
+    <div id="outer_content">
+      <h1>콘텐츠 탐색 선택자2</h1>
+      <section id="in_1">
+        <h2>find(), filter()</h2>
+        <p class="txt1">내용1</p>
+        <p class="txt2">내용2</p>
+      </section>
+      <section id="in_2">
+        <h2>filter(function)</h2>
+        <p>index0</p>
+        <p>index1</p>
+        <p>index2</p>
+        <p>index3</p>
+        <p>index4</p>
+      </section>
+    </div>
+  </div>
+</body>
+</html>
