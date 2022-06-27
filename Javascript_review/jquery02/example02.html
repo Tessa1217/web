@@ -30,13 +30,13 @@
       $('.wrap_1').prepend('<p>내용1</p>');
       $('.wrap_1 p:first').after('<p>내용2</p>')
       $('.wrap_1 p:nth(1)').attr('class', 'on');
+      // $('.wrap_1 p:nth(1)').removeClass('active').addClass('on');
       $('.wrap_1 p:nth(2)').remove();
       $('.wrap_1 p:nth(2) a').attr('href', 'https://naver.com');
       $('.wrap_2 p:first').after('<p>After(추가1)</p>');
       $('.wrap_2 p:first').before('<p>Before(추가2)</p>');
       $('.wrap_1 p:last input').val('Korea');
-      $('.wrap_3 div p').unwrap(); 
-      $('.wrap_3 p').wrapInner('<strong/>');
+      $('.wrap_3 div p').unwrap().wrapInner('<strong/>');
     })
   </script>
 
