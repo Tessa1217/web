@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+  <div>
+    <button type="button" id="btn">버튼</button>
+    <button type="button" id="btn2">버튼2</button>
+  </div>
+  <div>
+    <p>테스트</p>
+  </div>
+  <script>
+    // 단일 이벤트 등록 => 이벤트에 대응되는 메서드를 호출
+    $('#btn').click(function() {
+      $('body').append('<p>단일 이벤트 등록</p>');
+    });
+    // 그룹 이벤트 등록 => 여러 이벤트를 동시에 등록
+    // .on(event, function)
+    // $('#btn').on('click', () => {
+    //   $('body').append('<p>그룹 이벤트 등록</p>');
+    // })
+
+    $('#btn').on({
+      "click":() => {
+        alert("그룹 이벤트로 Click 이벤트 등록");
+      }, "mouseover": () => {
+        $('body').append('<p>Group Event</p>');
+      }
+    });
+
+    $('p').on({
+      "mouseenter":function() {
+        $('p').css('transform', 'scale(1.1)').css('transition', '0.3s');
+      }, "mouseleave":function() {
+        $('p').css('transform', 'scale(1.0)').css('transition', '0.3s');
+      }
+    })
+
+    // Trigger
+    // $(function() {
+    //   $('#btn').click(function() {
+    //     $('#btn').css('background', 'pink');
+    //   });
+    //   $('#btn2').on({
+    //     "mouseover focus" : function() {
+    //       $('#btn2').css('background', 'blue');
+    //     }
+    //   });
+    //   $('#btn').click(); 
+    //   $('#btn2').trigger('mouseover');
+    // });
+  </script>
+</body>
+</html>
