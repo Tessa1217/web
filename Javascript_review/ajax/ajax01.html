@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <style>
+    table {
+      border: 1px solid black;
+      border-collapse: collapse;
+      text-align: center;
+    }
+    tr, th, td {
+      border: 1px solid black;
+    }
+  </style>
+</head>
+<body>
+  <div id="content"></div>
+  <div id="content2"></div>
+</body>
+<script>
+  // Ajax: 비동기 방식
+   $(document).ready(function() {
+  //   $.ajax({
+  //     // Settings
+  //     // 접속할 주소
+  //     url : "192.168.0.29/myserver/empSelect",
+  //     // 데이터를 전송하는 방식 
+  //     type: 'GET',
+  //     // 전송할 데이터
+  //     data: ,
+  //     // 전송할 데이터의 content-type (default: application/x-www-form-urlencoded)
+  //     contentType: ,
+  //     // 리턴되는 데이터의 타입
+  //     dataType: ,
+  //     // 전송에 성공했을 경우
+  //     success: function(data) {
+
+  //     },
+  //     // 전송에 실패했을 경우
+  //     error: function(reject) {
+
+  //     }
+
+  //     // async 필드: 동기식과 비동기식을 제어, (Default=true), false: 동기식으로 동작
+  //     // beforeSend: 전송 전 이루어져야하는 작업 (function) 등록
+
+  //   });
+
+    // $.ajax({
+    //   url:"mockdata.json",
+    //   dataType: 'json',
+    //   success: function(data) {
+    //     let table = $('<table/>');
+    //     $('#content').append(table);
+    //     $(data).each(function(idx, obj) {
+    //       makeTable(idx, obj);
+    //     })   
+    //   },
+    //   error: function(reject) {
+    //     console.log(reject.statusCode());
+    //   }
+    // })
+
+    $.ajax({
+      url:"http://192.168.0.29/myserver/empSelect",
+      dataType: 'json',
+      success: function(dataset) {
+        let table2 = $('<table/>');
+        $('#content').append(table2);
+        $(dataset).each(function(idx, obj) {
+          makeTable(idx, obj);
+        })  
+      },
+      error: function(reject) {
+        console.log(reject.statusCode());
+      }
+    })
+
+    function makeTable(idx, obj) {
+      let table = $('table');
+      let thead = $('<thead/>');
+      let trTag = $('<tr/>');
+      if (idx == 0) {
+        for (let field in obj) {
+          $(trTag).append($('<th/>').text(field));
+          }
+          thead.append(trTag);
+          table.append(thead);
+          table.append('<tbody/>');
+        }  
+        trTag = $('<tr/>');
+      for (let field in obj) {
+        $(trTag).append($('<td/>').text(obj[field]));
+        $('tbody').append($(trTag));
+      }
+    }
+  });
+</script>
+</html>

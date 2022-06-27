@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <title>Document</title>
+</head>
+<body>
+  <div>
+    <label for="empId">사원번호</label>
+    <input type="number" id="empId" name="employee_id">
+    <button type="button" id="selectBtn">조회</button>
+    <form id="info" onsubmit="return false">
+      <div>
+        <button type="button" id="updateButton">수정</button>
+        <button type="button" id="deleteButton">삭제</button>
+      </div>
+      <div>
+        <label for="employee_id">사원번호</label>
+        <input type="number" id="employee_id" name="employee_id" readonly>
+      </div>
+      <div>
+        <label for="first_name">이름</label>
+        <input type="text" id="first_name" name="first_name">
+      </div>
+      <div>
+        <label for="last_name">성</label>
+        <input type="text" id="last_name" name="last_name">
+      </div>
+      <div>
+        <label for="email">이메일</label>
+        <input type="email" id="email" name="email">
+      </div>
+      <div>
+        <label for="phone_number">연락처</label>
+        <input type="text" id="phone_number" name="phone_number">
+      </div>
+      <div>
+        <label for="job_id">직업</label>
+        <input type="job_id" id="job_id" name="job_id">
+      </div>
+      <div>
+        <label for="salary">연봉</label>
+        <input type="number" id="salary" name="salary">
+      </div>
+    </form>
+  </div>
+  <script>
+    $('#selectBtn').on('click', function() {
+        $.ajax({
+        url: "http://192.168.0.29/myserver/empFind",
+        type: 'post',
+        data: {"employee_id" : $('#empId').val()},
+        dataType: 'json',
+        success: function(data) {
+          console.log(data);
+          for (let field in data) {
+            if ($('#' + field)) {
+              $('#' + field).val(data[field]);
+            }
+          }
+        }, 
+        error: function(reject) {
+          console.log(reject);
+        }
+      })
+    });
+
+    $('#updateButton').on('click', function() {
+      console.log($('#info').serialize());
+      $.ajax({
+        url:"http://192.168.0.29/myserver/empUpdate",
+        type:'post',
+        data: $('#info').serialize(),
+        dataType: 'json',
+        success : function(data) {
+          if (data != null) {
+            alert("수정이 완료되었습니다.");
+          }
+        },
+        error: function(reject) {
+          console.log(reject);
+        }
+      });
+    });
+
+    $('#deleteButton').on('click', function() {
+      $.ajax({
+        url:"http://192.168.0.29/myserver/empDelete",
+        type: 'post',
+        data: {'employee_id':$('#employee_id').val()},
+        dataType: 'json', 
+        success: function(data) {
+          if (!!data) {
+            alert('삭제가 완료되었습니다.')
+          }
+        }, 
+        error: function(reject) {
+          console.log(reject);
+        }
+      })
+    });
+  </script>
+</body>
+</html>
