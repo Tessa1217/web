@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+  <h2>$(this)</h2>
+  <ul class="menuWrap_1">
+    <li><a href="#">메뉴1</a></li>
+    <li><a href="#">메뉴2</a></li>
+    <li><a href="#">메뉴3</a></li>
+    <li><a href="#">메뉴4</a></li>
+    <li><a href="#">메뉴5</a></li>
+    <li><a href="#">메뉴6</a></li>
+    <li><a href="#">메뉴7</a></li>
+  </ul>
+  <h2>index()</h2>
+  <ul class="menuWrap_2">
+    <li><a href="#">메뉴8</a></li>
+    <li><a href="#">메뉴9</a></li>
+    <li><a href="#">메뉴10</a></li>
+  </ul>
+  <p class="idxNum"></p>
+  <script>
+    // 동일한 이벤트를 작동시키는 여러 개의 태그에 한꺼번에 이벤트 거는 법
+    // $(this) 사용하는 방법
+    $('.menuWrap_1 a').on('click', function(e) {
+      e.preventDefault(); 
+      $('.menuWrap_1 a').css('background', 'beige');
+      $(this).css('background', 'pink');
+    });
+    // index() 사용
+    $('.menuWrap_2 a').on('click', function(e) {
+      e.preventDefault();
+      $('.menuWrap_2 a').css('background', 'tomato');
+      // this => 클릭된 a 태그
+      console.log(this);
+      // this의 인덱스 찾기
+      let index = $('.menuWrap_2 a').index(this);
+      $('.menuWrap_2 a:eq(' + index + ')').css('background', 'skyblue');
+      $('.idxNum').text("클릭된 인덱스: " + index);
+    });
+  </script>
+</body>
+</html>
