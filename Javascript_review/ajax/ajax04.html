@@ -203,9 +203,9 @@
             let option = $('<option/>');
             if (idx == 0) {
               $(option).attr('selected', 'selected');
-              $('form #job_id').text(obj['job_id']).val(obj['job_id']);
+              $('form #job_id').text(obj['job_title']).val(obj['job_id']);
             }
-            select.append(option.text(obj['job_id']).val(obj['job_id']));
+            select.append(option.text(obj['job_title']).val(obj['job_id']));
             
           })
           $('form input#job_id').after(select);
