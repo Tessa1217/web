@@ -63,6 +63,12 @@
       border: 1px solid black;
     }
 
+    tbody tr:hover{
+      font-weight: bold;
+      cursor: pointer;
+      background: beige;
+    }
+
   </style>
 </head>
 <body>
@@ -122,6 +128,7 @@
           $(data).each((idx, obj) => {
             makeTable(idx, obj);
           })
+          $('form #employee_id').focus(); 
         }, 
         error: function(reject) {
           console.log(error);
@@ -193,7 +200,13 @@
           let select = $('<select/>');
           select.attr('name', 'job_id_list').attr('id', 'job_id_list');
           job_id.forEach((obj, idx) => {  
-            select.append($('<option/>').text(obj['job_id']).val(obj['job_id']));
+            let option = $('<option/>');
+            if (idx == 0) {
+              $(option).attr('selected', 'selected');
+              $('form #job_id').text(obj['job_id']).val(obj['job_id']);
+            }
+            select.append(option.text(obj['job_id']).val(obj['job_id']));
+            
           })
           $('form input#job_id').after(select);
           $('form input#job_id').css('width', '45%');
@@ -282,12 +295,14 @@
       $('#submit').css('display', 'inline');
       $('#update').css('display', 'none');
       $('#delete').css('display', 'none');
+      $('form #employee_id').removeAttr('readonly');
     }
 
     function buttonOnOff2() {
       $('#submit').css('display', 'none');
       $('#update').css('display', 'inline');
       $('#delete').css('display', 'inline');
+      $('form #employee_id').attr('readonly', true);
     }
     
   </script>
