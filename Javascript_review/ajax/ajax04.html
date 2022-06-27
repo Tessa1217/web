@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <title>Document</title>
+  <style>
+    body {
+      width: 80%;
+      margin: 0 auto;
+    }
+    form {
+      width: 80%;
+      margin: 0 auto;
+      padding: 3%;
+      margin: 3%;
+      text-align: center;
+    }
+    form label {
+      width: 30%;
+      display: inline-block;
+      background: #eee;
+      text-align: center;
+      font-weight: bold;
+      margin-right: 3%;
+    }
+    form input {
+      width: 60%;
+      border-radius: 5px;
+    }
+
+    form button {
+      width: 10%;
+      margin: 3%;
+      padding: 1%;
+      font-weight: bold;
+      border-radius: 5px;
+      background: beige;
+      border: none;
+    }
+    .second_container {
+      text-align: center;
+    }
+    div button {
+      margin: 3%;
+      border: none;
+      padding: 1%;
+      border-radius: 5px;
+      display: inline-block;
+      background: beige;
+    }
+
+    table {
+      border: 1px solid black;
+      border-collapse: collapse;
+      text-align: center;
+      width: 80%;
+      margin: 0 auto;
+    }
+    tr, th, td {
+      border: 1px solid black;
+    }
+
+  </style>
+</head>
+<body>
+  <div>
+    <!-- 입력 / 수정 / 삭제 -->
+    <form>
+      <div>
+        <label for="id">사원번호</label>
+        <input type="number" id="employee_id" name="employee_id">
+      </div>
+      <div>
+        <label for="last_name">성</label>
+        <input type="text" id="last_name" name="last_name">
+      </div>
+      <div>
+        <label for="first_name">이름</label>
+        <input type="text" id="first_name" name="first_name">
+      </div>
+      <div>
+        <label for="email">이메일</label>
+        <input type="email" id="email" name="email">
+      </div>
+      <div>
+        <label for="job_id">직업</label>
+        <input type="text" id="job_id" name="job_id">
+      </div>
+      <div>
+        <button type="button" id="submit">입력</button>
+        <button type="button" id="update" style="display:none">수정</button>
+        <button type="button" id="delete" style="display:none">삭제</button>
+      </div>
+    </form>
+  </div>
+  <div class="second_container">
+    <!-- 전체 조회 / 해당 사원 정보 조회 -->
+    <button type="button" id="empSelect">전체 조회</button>
+    <button type="button" id="empFind">사원 정보 조회</button>
+    <div id="select_wrap">
+    </div>
+    <table>
+      <thead></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <script>
+    // 전체 리스트 조회
+    $('#empSelect').click(function() {
+      if (!$('#select_wrap').empty()) {
+        $('#select_wrap').empty(); 
+      }
+      $('thead').empty(); 
+      $('tbody').empty(); 
+      $.ajax({
+        url : 'http://192.168.0.29/myserver/empSelect',
+        dataType: 'json',
+        success: function(data) {
+          $(data).each((idx, obj) => {
+            makeTable(idx, obj);
+          })
+        }, 
+        error: function(reject) {
+          console.log(error);
+        }
+      });
+    
+    // 전체 리스트 테이블 만들기
+    function makeTable(idx, obj) {
+      if (idx == 0) {
+        let trTag = $('<tr/>');
+        for (let field in obj) {
+          trTag.append($('<th/>').text(field));
+        }
+        $('thead').append(trTag);
+      }
+      let trTag = $('<tr/>');
+      for (let field in obj) {
+          trTag.append($('<td/>').text(obj[field]).attr('class', field));
+      }
+      // tr 클릭해서 정보 얻어오기
+      $(trTag).on('click', function() {
+        buttonOnOff2(); 
+        $($(this).children()).each((idx, elem) => {
+          let field = elem.getAttribute('class');
+          if ($('form input#' + field)) {
+            $('form input#'+field).val($(this).children()[idx].innerHTML);
+          };
+        })
+      })
+      $('tbody').append(trTag);
+    }
+    });
+
+    // 특정 사원번호 조회
+    $('#empFind').click(function() {
+      if (!!$('thead').empty()) {
+        $('thead').empty(); 
+        $('tbody').empty(); 
+      }
+      $('#select_wrap').prepend('<label for="employee_id">조회할 사원 번호</label><input type="number" id="employee_id" name="employee_id">')
+      $('#select_wrap label').append('<button type="button" id="empFinder">조회</button>');
+      $('#empFinder').click(function() {
+      $.ajax({
+        url : 'http://192.168.0.29/myserver/empFind',
+        type : 'post',
+        data: {'employee_id' : $('#select_wrap input').val()},
+        dataType: 'json',
+        success: function(data) {
+          for (let field in data) {
+            $('form #' + field).val(data[field]);
+          }
+          buttonOnOff2(); 
+        }, 
+        error: function(reject) {
+          console.log(reject);
+        }
+      })
+    })
+    })
+
+    // JOB_ID에 focus오면 SELECT 띄우기
+    $('#job_id').on('focus', function() {
+      if (!document.querySelector('#job_id_list')) {
+      $.ajax({
+        url : "http://192.168.0.29/myserver/empDeptJob",
+        dataType: 'json',
+        success: function(data) {
+          let job_id = data.jobs;
+          let select = $('<select/>');
+          select.attr('name', 'job_id_list').attr('id', 'job_id_list');
+          job_id.forEach((obj, idx) => {  
+            select.append($('<option/>').text(obj['job_id']).val(obj['job_id']));
+          })
+          $('form input#job_id').after(select);
+          $('form input#job_id').css('width', '45%');
+          $('select').on('change', function() {
+            $('form #job_id').val($(':selected').val());
+          })
+        },
+        error: function(reject) {
+          console.log(reject);
+        }
+      })
+    }
+    })
+
+    // 입력
+    $('#submit').click(function() {
+      $.ajax({
+        url:'http://192.168.0.29/myserver/empInsert',
+        type: 'post',
+        data: $('form').serialize(),
+        dataType: 'json',
+        success: function(data) {
+          if (data != null) {
+            alert('입력이 완료되었습니다.');
+            cleanForm();
+            $('#empSelect').trigger('click'); 
+          }
+        }, 
+        error: function(reject) {
+          console.log(reject);
+        }
+      })
+    });
+
+    // 수정
+    $('#update').click(function() {
+      $.ajax({
+        url:'http://192.168.0.29/myserver/empUpdate',
+        type: 'post',
+        data: $('form').serialize(),
+        dataType: 'json',
+        success: function(data) {
+          if (data != null) {
+            alert('수정이 완료되었습니다.');
+            cleanForm();
+            $('#empSelect').trigger('click'); 
+            buttonOnOff(); 
+          }
+        }, 
+        error: function(reject) {
+          console.log(reject);
+        }
+      })
+    })
+    
+    // 삭제
+    $('#delete').click(function() {
+      $.ajax({
+        url: 'http://192.168.0.29/myserver/empDelete',
+        type: 'post',
+        data: {"employee_id":$('form input#employee_id').val()},
+        dataType: 'json',
+        success: function(data) {
+          if (data != null) {
+            alert('삭제가 완료되었습니다.');
+            cleanForm();
+            $('#empSelect').trigger('click'); 
+            buttonOnOff(); 
+          }
+        }, 
+        error: function(reject) {
+          console.log(reject);
+        }
+      })
+    })
+
+    // 폼 비우기
+    function cleanForm() {
+      $('form').each(function() {
+        this.reset(); 
+      });
+    }
+
+    // 버튼 on/off
+    function buttonOnOff() {
+      $('#submit').css('display', 'inline');
+      $('#update').css('display', 'none');
+      $('#delete').css('display', 'none');
+    }
+
+    function buttonOnOff2() {
+      $('#submit').css('display', 'none');
+      $('#update').css('display', 'inline');
+      $('#delete').css('display', 'inline');
+    }
+    
+  </script>
+</body>
+</html>
