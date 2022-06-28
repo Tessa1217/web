@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // let app = new Vue({
+      //   // element: 'HTML 요소'
+      //   el : '#app',
+
+      //   // 아래 옵션들은 값으로 객체를 가짐
+      //   // 데이터에 대한 정보
+      //   // 사용하는 모든 데이터에 대해 정의
+      //   data : {
+
+      //   },
+      //   // 데이터 연산 관련
+      //   computed : {
+
+      //   },
+      //   // 데이터 처리 함수들
+      //   methods: {
+
+      //   },
+      //   // 데이터 감시
+      //   watch: {
+
+      //   },
+      // });
+
+      // 템플릿 문법
+      // 문법과 연결된 함수 실행
+      // {{ }} -> render() 함수
+      // MVVM 중 ViewModel
+      let app = new Vue({
+        el : '#app',
+        data : {
+          // Property
+          myText: "<h1>Hello!</h1>"
+        }
+      });
+
+    });
+  </script>
+  <!-- MVVM 중 View -->
+  <div id="app">
+    <!-- 템플릿 문법과 디렉티브의 사용 -->
+
+    <!-- JS 문법 사용 가능 -->
+    <p>{{ myText.replace('Hello', '안녕하세요') }}</p>
+    
+    <!-- Directives(디렉티브) -->
+    <!-- 해당 요소에 대해 VUE가 실행할 명령어 (v-)-->
+    <p v-text="myText"></p>
+    
+    <!-- innerHTML -->
+    <p v-html="myText"></p>
+
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      let app2 = new Vue({
+        el : '#app2',
+        data : {
+          myNumber : 12345,
+          myText : 'Vue.js',
+          myBoolean : true,
+          myArray : ['다즐링', '얼그레이', '실론'], 
+          myObject : {
+            name : '홍차',
+            price: 600
+          }
+        }
+      });
+    })
+  </script>
+  <div id="app2">
+    <p>{{ myNumber * 30 }}</p>
+    <p>{{ myText + '를 배워보도록 합시다' }}</p>
+    <p>{{ !myBoolean }}</p>
+    <p>{{ myArray }}</p>
+    <p>{{ myArray[0] }}</p>
+    <p v-for="a in myArray">{{ a }}</p>
+    <p>{{ myObject.name }} {{ myObject.price }}</p>
+    <!-- 오브젝트 형태로 전체 데이터 출력-->
+    <p>{{ $data }}</p>
+  </div>
+
+
+</body>
+</html>
