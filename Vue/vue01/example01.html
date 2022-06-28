@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <style>
+    .blue-underline {
+      text-decoration-line: underline;
+      text-decoration-color: blue;
+    }
+    .dark {
+      color: white;
+      background: black;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      let v1 = new Vue({
+        el : '#app',
+        data : {
+          naverURL : 'https://www.naver.com',
+          myImage : 'animation.jpg',
+          sizeStyle : {
+            width: '300px',
+            height: '300px'
+          },
+          left : "left",
+          center : "center",
+          right : "right",
+          red : 'red',
+          size : '150%',
+          display : 'inline',
+          yellowBack : 'yellow',
+          underline : "blue-underline",
+          darkClass : "dark"
+        }
+      })
+    });
+  </script>
+  <div id="app">
+    <p><a v-bind:href="naverURL">네이버</a></p>
+    <p><img v-bind:src="myImage" :style="sizeStyle"></p>
+    <p v-bind:style="{textAlign:left}">텍스트를 왼쪽 정렬</p>
+    <!-- align 속성에 값 주기 -->
+    <p v-bind:align="right">텍스트를 오른쪽 정렬</p>
+    <p v-bind:style="{textAlign:center}">텍스트를 가운데 정렬</p>
+    <p v-bind:style="{color:red, display:display}">인라인 스타일로 글자색을 빨간색으로</p>
+    <p v-bind:style="{color:red, display:display, fontSize:size}">인라인 스타일로 글자크기를 150% 크게 빨간색으로</p>
+    <p v-bind:style="{color:red, display:display, fontSize:size, backgroundColor:yellowBack}">인라인 스타일로 글자크기를 150% 크게 빨간색으로 배경은 노란색으로</p>
+    <p v-bind:class="underline">blue-underline(파란색 밑줄) class 지정</p>
+    <p v-bind:class="[underline, darkClass]">blue-underline(파란색 밑줄), dark(배경은 검은색으로) class 지정</p>
+  </div>
+</body>
+</html>
