@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // computed 속성
+    // method는 주로 이벤트 핸들러 역할, computed는 데이터를 가볍게 연산시켜서 반환하는 역할
+    // watch 속성 : 데이터 변화를 감지해서 필요한 연산을 함 
+    document.addEventListener('DOMContentLoaded', function() {
+      let v1 = new Vue({
+        el : '#app',
+        data : {
+          price : 0,
+          count : 0,
+          total: 0,
+          myText : '',
+          myTime : ''
+        },
+        // 연관되는 데이터가 변경되면 실행됨 (sum, vatPrice의 정보는 일시적으로 캐싱됨)
+        // 연관되는 변경되지 않으면 호출되더라도 실행되지 않음 (<> 메소드는 호출되면 실행됨)
+        computed : {
+          sum : function() {
+            return this.price * this.count;
+          },
+          // 산출 프로퍼티
+          vatPrice : function() {
+            // 자동으로 연산 내용 변경 
+            //return Math.round(this.price * this.count * 1.1);
+            return Math.round(this.sum * 1.1);
+          },
+          remaining : function() {
+            return 140 - this.myText.length;
+          }, 
+          computedColor : function() {
+            let color = 'green';
+            if (this.remaining < 20) {
+              color = 'orange';
+            } 
+            if (this.remaining < 5) {
+              color = 'red';
+            }
+            return color;
+          },
+          printDate : function() {
+            return '오늘 날짜: ' + new Date(Date.now()); 
+          }
+        },
+        methods : {
+          sumPrice : function() {
+            this.total = this.price * this.count;
+          },
+          timeClock : function() {
+            this.myTime = new Date(Date.now());
+          }, 
+          getDate : function() {
+            alert(this.printDate2());
+          },
+          printDate2 : function() {
+            return '오늘 날짜 : ' + new Date(Date.now());
+          }
+        }
+      });
+    });
+  </script>
+  <div id="app">
+    <input v-model.number="price" type="number">원<br>
+    <input v-model.number="count" type="number">개<br>
+    <p>합계 : {{ sum }}원</p>
+    <p>부가세 포함 합계: {{ vatPrice }}원</p>
+
+    <!-- 누르기 전까지는 메소드는 실행되지 않아서 total은 값이 입력되어도 0 -->
+    <p @click="sumPrice"> {{ total }} </p>
+
+    <p>감상은 140자 이내로 입력해주세요.</p>
+    <textarea v-model="myText"></textarea>
+    <p :style="{ color:computedColor }">남은 글자는 {{ remaining }}자 입니다.</p>
+    <p>{{ printDate }}</p>
+    <p @mouseenter="timeClock">현재 시간 : {{ myTime }}</p>
+    <!-- computed는 메소드 형태를 띠고 있지만 메소드는 아님, 오로지 연관되어 있는 데이터 속성에 변경되었을 때만
+    동작을 함. 함수로 클릭 시 computed를 호출하더라도 마찬가지. -->
+    <button @click="getDate">현재 날짜</button>
+    <p v-text="printDate2()"></p>
+  </div>
+</body>
+</html>
