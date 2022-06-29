@@ -55,8 +55,8 @@
   <div id="app">
     <!-- input의 value 속성이 비어있으면 모든 데이터가 보이고 검색을 하면 해당되는 데이터만 보이도록 -->
     <input v-model="findWord">
-    <ul v-for="item in findItems">
-      <li>{{ item }}</li> 
+    <ul>
+      <li v-for="item in findItems">{{ item }}</li> 
     </ul>
   </div>
   <script>
