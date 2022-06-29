@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+  <script>
+    /*
+      1. 입력금지 문자열을 ,(콤마) 기준으로 입력할 수 있다.
+      2. 제한 시간을 넣고 시작버튼을 누르면 텍스트를 넣을 수 있다.
+      3. 제한 시간이 실시간으로 표시된다.
+      4. 입력중 금지 문자열이 나올 경우 경고를 뛰우고
+         확인버튼을 누르면 해당문자열은 삭제되며 시간이 +10초 추가된다.
+      5. 제한 시간이 완료되면 텍스트 입력창은 비활성화되고
+         입력 창 아래 입력한 문자의 개수가 표시되며
+         금지어를 사용한 횟수 * 12 한 벌점을 출력한다
+    */
+    document.addEventListener('DOMContentLoaded', function() {
+      let v1 = new Vue({
+        el : '#app',
+        data : {
+          forbiddenText : '',
+          timeLeft : 0,
+          timeLimit : 0,
+          count : 0,
+          inputText : '',
+          timerObj : null,
+          // true면 비활성화
+          isWritable : true
+        }, 
+        computed : {
+          point : function() {
+            return this.count * 12;
+          }, 
+          wordCount : function() {
+            let wdCnt = this.inputText.length;
+            this.inputText = '';
+            return wdCnt;
+          }
+        }, 
+        watch : {
+          inputText : function() {
+            let wordArray = (this.forbiddenText.replace(/(\s*)/g, "")).split(',');
+            wordArray.forEach((val, idx) => {
+              let pos = this.inputText.indexOf(val);
+              if (pos >= 0) {
+                alert(val + '은/는 입력할 수 없습니다.');
+                this.inputText = this.inputText.substr(0, pos);
+                this.count++;
+                this.timeLimit += 10;
+              }
+            })
+          }, 
+          timeLimit : function() {
+            if (this.timeLimit <= 0) {
+              alert('제한 시간이 완료되었습니다.');
+              clearInterval(this.timerObj);
+              this.isWritable = true;
+            }
+          }
+        }, 
+        methods : {
+          startTimer : function() {
+            this.timeLimit = this.timeLeft;
+            this.isWritable = false;
+            this.timerObj = setInterval(() => {
+              this.timeLimit--;
+            }, 1000);
+          }
+        }
+      });
+    });
+  </script>
+  <div id="app">
+    <h1>제한 시간내에 문자 입력하기</h1>
+    <label>
+      금지문자(,로 나누어 복수입력가능)
+      <input type="text" v-model = "forbiddenText" v-bind:disabled="!isWritable">
+    </label>
+    <br>
+    <label>
+      제한시간을 입력하세요(초)
+      <input type="number" v-model.number = "timeLeft" v-bind:disabled="!isWritable">
+    </label>
+    <button @click="startTimer" v-bind:disabled="!isWritable">시작</button>
+    <p>남은시간 : {{ timeLimit }}초</p>
+    <textarea v-model="inputText" v-bind:disabled="isWritable"></textarea>
+    <p v-if="timeLimit == 0">{{ wordCount }}개의 문자를 입력하였습니다.</p>
+    <p v-if="timeLimit == 0">벌점 (금지문자 1개당 12점): {{ point }}점</p>
+  </div>
+</body>
+</html>
