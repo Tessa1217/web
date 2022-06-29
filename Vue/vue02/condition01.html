@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // v-if, v-show
+    document.addEventListener('DOMContentLoaded', function() {
+      let v1 = new Vue({
+        el : 'div',
+        data : {
+          myVisible : false,
+          isShow : true
+        }, 
+        methods : {
+          choice1 : function() {
+            this.isShow = false;
+          }, 
+          choice2 : function() {
+            this.isShow = true;
+          }
+        }
+      });
+    });
+  </script>
+  <div>
+    <label><input type="checkbox" v-model="myVisible">표시</label>
+    <!-- v-if 사용 시 if 구문 조건 만족하지 않을 경우 아예 객체가 생성이 안 됨 -->
+    <p v-if="myVisible" id="test">체크박스 ON</p>
+    <!-- 중간에 태그가 있을 경우에는 v-else 태그가 제대로 작동하지 못함 -->
+    <!-- <p>새로운 P 태그</p> -->
+    <!-- else 태그의 경우 반드시 if와 붙어있어야 작동 -->
+    <p v-else>체크박스 OFF</p>
+    <br>
+    <br>
+    <button v-show="isShow" v-on:click="choice1">선택1</button>
+    <button v-show="!isShow" v-on:click="choice2">선택2</button>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      let v2 = new Vue({
+        el : '#elseif',
+        data : {
+          type : ''
+        }
+      })
+    });
+  </script>
+  <div id="elseif">
+    <br>
+    <br>
+    <input v-model="type">
+    <!-- 사이에 관련 없는 태그 들어가면 안 됨 -->
+    <p v-if="type=='A'">A</p>
+    <p v-else-if="type=='B'">B</p>
+    <p v-else-if="type=='C'">C</p>
+    <p v-else-if="type==''"></p>
+    <p v-else>기타: {{ type }}</p>
+  </div>
+</body>
+</html>
