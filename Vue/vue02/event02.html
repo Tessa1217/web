@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      let v1 = new Vue({
+        el : '#app',
+        data : {
+          message : '',
+          text : ''
+        },
+        methods : {
+          say: function(message) {
+            alert(message);
+          }
+        }
+      });
+    });
+  </script>
+  <div id="app">
+    <button @click="say('hi')">Say hi</button>
+    <button @click="say('hello')">Say Hello</button>
+    <input type="text" v-model="text">
+    <button @click="say(text)">Say Text</button>
+  </div>
+</body>
+</html>

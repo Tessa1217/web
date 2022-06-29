@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      let v1 = new Vue({
+        el : '#calculator',
+        data : {
+          counter : 0
+        }
+      });
+    });
+  </script>
+  <div id="calculator">
+    <h1>간단한 계산기</h1>
+    <input type="number" v-model.number="num1">
+    <input type="number" v-model.number="num2"><br>
+    <button v-on:click="counter = num1 + num2">덧셈계산</button>
+    <button v-on:click="counter = num1 - num2">뺄셈계산</button>
+    <button v-on:click="counter = num1 * num2">곱셈계산</button>
+    <button v-on:click="counter = num1/num2">나눗셈계산</button>
+    <p>결과는 {{ counter }}입니다.</p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      let v2 = new Vue({
+        el : '#calculator2',
+        data : {
+          num1 : 0,
+          num2 : 0,
+          counter : 0
+        },
+        methods : {
+          plus : function() {
+            this.counter = this.num1 + this.num2;
+          },
+          minus : function() {
+            this.counter = this.num1 - this.num2;
+          },
+          multiple : function() {
+            this.counter = this.num1 * this.num2;
+          },
+          division : function() {
+            this.counter = this.num1 / this.num2;
+          }
+        }
+      });
+    });
+  </script>
+  <div id="calculator2">
+    <h1>간단한 계산기</h1>
+    <input type="number" v-model.number="num1">
+    <input type="number" v-model.number="num2"><br>
+    <button v-on:click="plus">덧셈계산</button>
+    <!-- Shorthand -->
+    <button @click="minus">뺄셈계산</button>
+    <button v-on:click="multiple">곱셈계산</button>
+    <!-- Shorthand -->
+    <button @click="division">나눗셈계산</button>
+    <p>결과는 {{ counter }}입니다.</p>
+  </div>
+</body>
+</html>
