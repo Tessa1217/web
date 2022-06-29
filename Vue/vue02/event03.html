@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <title>Document</title>
+  <style>
+    .tag {
+      border: 1px solid grey;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      let v1 = new Vue({
+        el : 'div',
+        data : {
+          message : ''
+        },
+        methods : {
+          warn : function(message, event) {
+            if(event) {
+              // 이벤트 타겟
+              console.log(event.target);
+              // 현재 이벤트를 처리중인 element
+              console.log(event.currentTarget);
+              // 이벤트 객체 전체 
+              console.log(event);
+              // 발생한 이벤트 타입
+              console.log(event.type);
+              // 이벤트 버블링 유무 - true
+              console.log(event.bubbles);
+              // 이벤트 기본 동작 취소 가능 여부 - true
+              console.log(event.cancelable);
+              // 이벤트의 기본 행동 취소
+              // canceleable가 true일 경우일 때만 가능함
+              event.preventDefault();
+            }; 
+            alert(message)
+          }
+        }
+      });
+    });
+  </script>
+  <div>
+    <!-- event 객체를 넘겨줄 경우 $event로 념겨줌 -->
+    <!-- vue.js는 자동으로 이벤트 객체를 넘겨주지 않음 -->
+    <button v-on:click="warn('Form cannot be submitted yet', $event)">
+      Submit
+    </button>
+  </div>
+  <script>
+    // 이벤트 수식어 -> on 디렉티브에 연결하는 이벤트 동작을 제어
+    // .stop (이벤트 버블링 막기, 이벤트 전파 중단) = stopPropagation()
+    // .prevent (이벤트 객체에 default로 정의된 이벤트 막기) = preventDefault
+    // .self (이벤트 객체의 target == currentTarget일 경우에만 이벤트 핸들러 동작)
+    // .capture (이벤트 캡처링 중단)
+    // .once (이벤트를 한번만 발생 시킴, 최대 한번만 트리거)
+    // .passive (wheel 이벤트 동작 시 실제 화면에서 스크롤된 것과 로직을 분리)
+    // 이벤트 수식어 작성 시 순서 중요
+    // ex) @click.prevent.self => 요소와 요소 밑의 자식 요소들의 default action을 다 막음
+    // ex) @click.self.prevent => 요소의 default action만 막음
+    document.addEventListener('DOMContentLoaded', function() {
+      let v2 = new Vue({
+        el : '#modifiers',
+        data : {
+          message : '',
+          style: 'tag'
+        },
+        methods : {
+          printMessage : function(message) {
+            this.message = message;
+            alert(this.message);
+          },
+          changeMessage : function(event) {
+            if(event) {
+              console.log(event.target); // span tag
+              this.message = '이벤트 실행 target: ' + event.target.innerHTML;
+            }
+          },
+          alertExecute : function() {
+            alert('이벤트 핸들러 복수 등록');
+          }
+        }
+      });
+    });
+  </script>
+  <div id="modifiers" v-bind:class="style">
+    <form action="http://www.naver.com" v-bind:class="style" @click="printMessage('form 태그 선택')" v-on:submit.prevent>
+      <!-- div 태그에 stop > 자식 요소들 클릭 시 이벤트 버블링이 div 태그까지만 발생, form 태그까지는 버블링 일어나지 않음 -->
+      <div v-bind:class="style" v-on:click.stop="printMessage('div 태그 선택')">
+        <!-- 이벤트 수식어 여러 개 사용할 경우 -->
+        <!-- 이벤트 target, currenttarget이 모두 p 태그일 때만 발생, a 태그 클릭 시 p 태그 건너뛰고 이벤트 버블링 발생 -->
+        <!-- once : 이벤트 target, currentTarget이 모두 p 태그일 때 '1번만' 발생함 -->
+        <!-- stop : 이벤트 target, currentTarget이 모두 p 태그일 때 '1번만' 발생하며 버블링이 일어나지 않음 -->
+        <p v-bind:class="style" v-on:click.self.once.stop="printMessage('p 태그 선택')">
+          <!-- prevent : a link href로 이동 막음 -->
+          <!-- stop : 이벤트 버블링 막음 -->
+          <a href="http://www.google.com" v-bind:class="style" v-on:click.prevent="printMessage('a 태그 선택')">구글로 이동</a>
+          {{ message }}
+        </p>
+      </div>
+      <button>form</button>
+    </form>
+    <div :class="style">
+      <!-- 매개 변수가 없을 경우 단일 핸들러만 등록할 시에는 이름만 넘겨줌 ex) 계산기에서 plus, minus, multiple etc -->
+      <!-- 매개 변수가 없을지라도 복수 핸들러 등록할 시에는 () 반드시 붙여주어야 함 ex) alertExecute() -->
+      <span @click="changeMessage($event), alertExecute()">이벤트 핸들러 복수 실행</span>
+    </div>
+  </div>
+</body>
+</html>
