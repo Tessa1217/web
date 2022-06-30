@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      let data = [1, 2, 3, 4, 5, 6];
+      let v1 = new Vue({
+        el : '#app',
+        data : {
+          numAry : [1, 2, 3, 4, 5, 6],
+          originnumAry : [1, 2, 3, 4, 5, 6]
+        },
+        methods : {
+          eventDataEven : function() {
+            this.numAry = this.originnumAry.filter(num => num % 2 == 0);
+          },
+          eventDataOdd : function() {
+            this.numAry = this.originnumAry.filter(num => num % 2 != 0);
+          },
+          originData : function() {
+            this.numAry = this.originnumAry;
+          }
+        }
+      });
+    });
+  </script>
+  <div id="app">
+    <h3>짝수인 요소만 출력</h3>
+    <ul>
+      <li v-for="num in originnumAry" v-if="num%2 == 0">{{ num }}</li>
+    </ul>
+    <h3>홀수인 요소만 출력</h3>
+    <ul>
+      <li v-for="num in originnumAry" v-if="num%2 != 0">{{ num }}</li>
+    </ul>
+    <hr>
+    <h3>특정 요소 출력</h3>
+    <ul>
+      <li v-for="num in numAry">{{ num }}</li>
+    </ul>
+    <button @click="eventDataEven">짝수</button>
+    <button @click="eventDataOdd">홀수</button>
+    <button @click="originData">전체데이터 다시보기</button>
+  </div>
+</body>
+</html>

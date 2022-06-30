@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <title>Document</title>
+  <style>
+
+    #app {
+      width: 80%;
+      margin: 0 auto;
+    }
+
+    table {
+      border : 1px solid black;
+      border-collapse : collapse;
+      width: 80%;
+      text-align: center;
+    }
+    
+    tr, th, td {
+      border : 1px solid black;
+    }
+
+    tr td:first-child {
+      font-weight: bold;
+    }
+
+  </style>
+</head>
+<body>
+  <script>
+    document.addEventListener('DOMContentLoaded', function(){
+      let headerData = ['프로그래밍 언어', 2018, 2013, 2008, 2003, 1998];
+      let rankingData = [
+        ['Java', 1, 2, 1, 1, 16],
+        ['C', 2, 1, 2, 2, 1],
+        ['C++', 3, 4, 3, 3, 2],
+        ['Python', 4, 7, 6, 11, 23],
+        ['JavaScript', 7, 10, 8, 7, 20]
+      ]
+      let v1 = new Vue({
+        el : '#app',
+        data : {
+          th : headerData, 
+          td : rankingData
+        }
+      });
+    });
+  </script>
+  <div id="app">
+    <h3>관심받고 있는 언어 랭킹</h3>
+    <table>
+      <thead>
+        <tr>
+          <th v-for="item in th">{{ item }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- 이중 배열 -->
+        <tr v-for="language in td">
+          <!-- 변수의 사용 범위는 for directive가 선언된 안이기 때문에
+          변수 이름의 중복 사용 가능함 -->
+          <td v-for="item in language">{{ item }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <script>
+    let data = ['첫번째', '두번째', '세번째', '네번째', '다섯번째'];
+    document.addEventListener('DOMContentLoaded', function() {
+      init(); 
+    }); 
+
+    function init() {
+        data.forEach((obj, idx) => {
+          let liTag = document.createElement('li');
+          liTag.textContent = obj;
+          document.getElementById('app2').querySelector('ul')
+        .append(liTag);
+        });
+      }
+
+    function replaceOriginal() {
+      document.getElementById('app2').querySelector('ul').replaceChildren();
+      init(); 
+    }
+
+    function addLast() {
+      data.push('[맨 뒤에 추가]');
+      replaceOriginal();   
+    }
+    function addObj(index) {
+      data.splice(index, 0, '[추가]');
+      replaceOriginal();  
+    }
+    function changeObj(index) {
+      data.splice(index, 1, '변경');
+      replaceOriginal();  
+    }
+    function deleteObj(index) {
+      data.splice(index, 1);
+      replaceOriginal();  
+    }
+  </script>
+  <div id="app2">
+    <h3>목록을 구성하는 데이터 변경 시 목록 업데이트</h3> 
+    <ul>
+
+    </ul>
+    <button onclick="addLast()">맨 뒤에 추가</button>
+    <button onclick="addObj(3)">네번째에 추가</button>
+    <button onclick="changeObj(0)">첫번째를 변경</button>
+    <button onclick="deleteObj(1)">두번째를 삭제</button>
+  </div>
+  <script>
+    // 뷰 사용하여 변경된 데이터 값을 자동으로 업데이트
+    document.addEventListener('DOMContentLoaded', function() {
+      let data = ['첫번째', '두번째', '세번째', '네번째', '다섯번째'];
+      let v2 = new Vue({
+        el : '#app3',
+        data : {
+          itemList : data
+        },
+        methods : {
+          // Array.splice
+          // 매개 변수 1 : start (배열에서 변경해야 하는 부분의 시작점)
+          // 매개 변수 2 : deleteCount (배열에서 시작점부터 삭제해야 하는 요소의 개수)
+          // 매개 변수 3 : item (배열에서 시작점부터 추가해야 하는 요소, 여러 개 올 수 있음)
+          addLast : function() {
+            this.itemList.push('[맨 뒤에 추가]');
+          },
+          addObj : function(idx) {
+            this.itemList.splice(idx, 0, '[추가]');
+          },
+          changeObj : function(idx) { 
+            this.itemList.splice(idx, 1, '[변경]');
+          },
+          deleteObj : function(idx) {
+            this.itemList.splice(idx, 1);
+          }
+        }
+      });
+    });
+  </script>
+  <div id="app3">
+    <h3>목록을 구성하는 데이터 변경 시 목록 업데이트(뷰)</h3>
+    <ul>
+      <li v-for="item in itemList">{{ item }}</li>
+    </ul>
+    <button @click="addLast()">맨 뒤에 추가</button>
+    <button @click="addObj(3)">네번째에 추가</button>
+    <button @click="changeObj(0)">첫번째를 변경</button>
+    <button @click="deleteObj(1)">두번째를 삭제</button>
+  </div>
+</body>
+</html>
