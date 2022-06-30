@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <title>Document</title>
+  <style>
+    div {
+      text-align: center;
+    }
+    ul {
+      list-style: none;
+    }
+
+    button {
+      background: #184D47;
+      color: white;
+      border: none;
+      padding: 2%;
+      margin: 2%;
+      border-radius: 5px;
+    }
+    button:hover {
+      background: #194350;
+      font-weight: bold;
+      transform: scale(1.1);
+      transition: 0.3s;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      let numList = [2, 3, 4, 5, 6, 7, 8, 9];
+      let v1 = new Vue({
+        el : '#app',
+        data : {
+          numAry : numList,
+          show : false
+        },
+        methods : {
+          // 변경버튼: 해당하는 값에 1을 더하는 함수
+          numUp : function(idx) {
+            // this.numAry[idx]++;
+            // 인덱스를 직접 이용하여 배열에 값을 변경하는 경우: 
+            // 배열 자체의 값은 변경되나 HTML에 즉각적인 반영이 안 됨
+            // 해당 변경은 watcher가 인식하지 못함 
+            // watcher는 메소드로 인한 변화를 인식
+            let newNum = this.numAry[idx] + 1;
+            this.numAry.splice(idx, 1, newNum);
+          },
+          // 정렬 버튼 : 배열 안의 데이터를 오름차순으로 정렬
+          sortAry : function() {
+            // 중복값 제거
+            this.numAry = this.numAry.filter(function(num, idx, array) {
+              // indexOf => 매개변수로 넘어온 값을 검색하는 메소드
+              // 중복되는 값이 검색될 경우 가장 처음 만나는 인덱스 값을 반환
+              // 뒤에 인덱스 값은 분실 => 중복 제거 가능
+              // console.log(array.indexOf(num));
+              return array.indexOf(num) === idx;
+            });
+            // 정렬 (-1 오름차순, 1 내림차순)
+            this.numAry = [...this.numAry].sort((a, b) => (a < b ? -1 : 1)); 
+          },
+          // 삭제 버튼: 해당하는 값을 배열에서 삭제하는 함수
+          deleteNum : function(idx) {
+            this.numAry.splice(idx, 1);
+          },
+          // 추가 버튼 : 배열에 1을 추가하는 함수
+          addNum : function() {
+            this.numAry.push(1);
+          },
+          // 구구단 보이기 버튼 : 배열을 가지고 결과를 출력 
+          showGugudan : function() {
+            this.show = true;
+          },
+          hideGugudan : function() {
+            this.show = false;
+          }
+        }
+      }); 
+    });
+  </script>
+  <div id="app">
+    <h3>숫자 배열 조작과 구구단 출력</h3>
+    <ul>
+      <li v-for="(num, idx) in numAry">{{ num }}<button @click="numUp(idx)">변경</button><button @click="deleteNum(idx)">삭제</button></li>
+    </ul>
+    <button @click="addNum">추가</button>
+    <button @click="sortAry">소트</button>
+    <button @click="showGugudan">구구단 보이기</button>
+    <button @click="hideGugudan">구구단 닫기</button>
+    <ul v-if="show">
+      <li v-for="num in numAry"><hr><p v-for="n in 9">{{ num }} * {{ n }} = {{ num * n }}</p></li>
+      <hr>
+    </ul>
+  </div>
+</body>
+</html>
