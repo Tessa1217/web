@@ -32,8 +32,43 @@
     </ul>
     <h3>단순히 태그를 반복하는 경우</h3>
     <ul>
+      <!-- 횟수이기 때문에 0부터 시작하지 않음, n은 1부터 N까지 -->
       <li v-for="n in 5">{{ n }}번째 리스트</li>
     </ul>
+    <ul>
+      <!-- 인덱스 사용 가능, 변수 순서는 item > index 순 -->
+      <!-- 인덱스에 조건 걸어서 사용 가능 -->
+      <!-- 이중 중괄호 사이에는 기본적으로 자바스크립트 연산 가능 -->
+      <li v-for="(item, index) in itemList" v-if="index > 2">{{ index + ": " + item }}</li>
+    </ul>
+    <ul>
+      <li v-for="(item, index) in objectList">{{ index + 1 }}번째 아이템 : {{ item.id }}</li>
+    </ul>
  </div>
+ <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    let v2 = new Vue({
+      el : '#app2',
+      data : {
+        num1 : 0
+      }
+    });
+  });
+ </script>
+  <div id="app2">
+    <ul>
+      <!-- 뷰는 인스턴스를 기반으로 하기 때문에 기존에 선언된 데이터를 사용하지 않더라도 
+        인스턴스 선언은 반드시 필요 -->
+      <!-- n에 대한 연산 가능 -->
+      <li v-for="n in 6">{{ n * 3 }}리스트</li>
+    </ul>
+    <ul>
+      <li v-for="n in 9">2 * {{ n }} = {{ 2 * n }}</li>
+    </ul>
+    <input type="number" v-model.number="num1">
+    <ul>
+      <li v-if="num1 > 0" v-for="n in 9">{{ num1 }} * {{ n }} = {{ num1 * n }}</li>
+    </ul>
+  </div>
 </body>
 </html>
