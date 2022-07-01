@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <link href="style.css" rel="stylesheet">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // 게시판 리스트
+      const listComponent = {
+        // 캡슐을 통해 HTML 코드 캡슐화
+        template : `<div>
+                      <table id="list">
+                        <thead>
+                          <tr>
+                            <th style="width:50px;">글번호</th>
+                            <th>글제목</th>
+                            <th style="width:50px;">조회수</th>
+                            <th style="width:70px;"></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr v-for="(item, idx) in object" v-bind:key="item.no">
+                            <td>{{ item.no }}</td>
+                            <td @click="boardRead(item)">{{ item.title }}</td>
+                            <td>{{ item.view }}</td>
+                            <td><button @click="boardDelete(item.no)">삭제</button></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <button style="float:right;" @click="boardWrite">글쓰기</button>
+                    </div>`,
+        props : ['object'],
+        methods : {
+          boardRead : function(info) {  
+            this.$emit('board-read', info);
+          },
+          boardDelete : function(idx) {
+            this.$emit('board-delete', no);
+          },
+          boardWrite : function() {
+            this.$emit('board-write');
+          }
+        }
+      };
+      // 게시글 읽기
+      const readComponent = {
+        template : `<div>
+                      <table id="list">
+                        <tr>
+                          <td style="width:50px;">글제목</td>
+                          <td>{{ object.title }}</td>
+                        </tr>
+                        <tr style="height:300px">
+                          <td colspan="2">{{ object.content }}</td>
+                        </tr>
+                      </table>
+                      <button style="float:right;" v-on:click="boardList">목록</button>
+                    </div>`,
+        props : ['object'],
+        methods : {
+          boardList : function() {
+            this.$emit('board-list');
+          }
+        }
+      }
+      // 게시판 글쓰기
+      const writeComponent = {
+        template : `<div>
+                      <table id="list">
+                        <tr>
+                          <td>글제목</td>
+                          <td><input type="text" style="width:90%;" v-model="title"></td>
+                        </tr>
+                        <tr>
+                          <td colspan="2">
+                            <textarea style="width:100%;" v-model="content"></textarea>
+                          </td>
+                        </tr>
+                      </table>
+                      <button style="float:right;" @click="boardList">목록</button>
+                      <button style="float:right;" @click="boardSubmit">글등록</button>
+                    </div>`,
+          data : function() {
+            return {
+              title : '',
+              content : ''
+            }
+          },
+          methods : {
+            boardList : function() {
+              this.$emit('board-list');
+            }, 
+            boardSubmit : function() {
+              this.$emit('board-submit', this.title, this.content);
+            }
+          }
+      }
+
+      let v1 = new Vue({
+        el : '#app',
+        data : {
+          dataArray : [],
+          listOk : false,
+          readOk : false,
+          writeOk : false,
+          boardInfo : {}
+        },
+        components : {
+          'my-board-list' : listComponent,
+          'my-board-read' : readComponent,
+          'my-board-write' : writeComponent
+        }, 
+        methods : {
+          loadData : function(event) {
+            let file = event.target.files[0];
+            console.log(file);
+            if (file) {
+              fetch(file.name)
+                .then(response => response.json())
+                .then(data => {
+                  this.dataArray = data;
+                  if(this.dataArray != null && this.dataArray['board'].length > 0) {
+                    this.listOk = true;
+                  }
+                })
+                .catch(err => console.log(err));
+            }
+          },
+          boardRead : function(info) {
+
+          },
+          boardWrite : function() {
+
+          },
+          boardDelete : function(idx) {
+
+          },
+          boardList : function() {
+            
+          },
+          boardSubmit : function(title, content) {
+
+          }
+        }
+      });
+    });   
+  </script>
+  <h2>간단한 게시판 만들기</h2>
+  <div id="app">
+    <p>게시판 데이터 json 파일 읽기</p>
+    <input type="file" @change="loadData">
+    <button>게시판 저장하기</button>
+    <my-board-list v-if="listOk" :object="dataArray['board']"
+    v-on:board-read="boardRead"
+    v-on:board-write="boardWrite"
+    v-on:board-delete="boardDelete"></my-board-list>
+    <my-board-read v-if="readOk" :object="boardInfo"
+    v-on:board-list="boardList"></my-board-read>
+    <my-board-write v-if="writeOk"
+    v-on:board-list="boardList" 
+    v-on:board-submit="boardSubmit"></my-board-write>
+  </div>
+</body>
+</html>
