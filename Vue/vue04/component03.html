@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      
+      //$on -> 컴포넌트 간에 이벤트를 수신하는 경우 
+
+      //$emit -> event를 통해 컴포넌트가 상위 컴포넌트에 메세지를 보내는 경우
+      // 제한적인 통신을 통해 부모 컴포넌트의 데이터를 수정할 경우에는 이벤트를 이용하도록 제한함 
+      const component = {
+        template : `<div>
+                      <button v-on:click="childIncrementCounter">자식으로부터 증가</button>
+                      <button v-on:click="$emit('erase-me')">자식으로부터 0으로</button>
+                    </div>`,
+        methods : {
+          childIncrementCounter : function() {
+            this.$emit('increment-me');
+          }
+          // ,
+          // childErase : function() {
+          //   this.$emit('erase-me');
+          // }
+        }
+      }
+
+      const btnComponent = {
+        template : `<div>
+                      <input v-model="counter">
+                      <button v-on:click="counting">{{ counter }}</button>
+                    </div>`,
+        data : function () {
+          return {
+            counter : 0
+          }      
+        }, 
+        methods : {
+          counting : function() {
+            this.counter += 1;
+            //this.$emit('countUp');
+          }
+        },
+        watch : {
+          counter : function() {
+            this.$emit('count-up');
+          }
+        }
+      }
+
+      let v1 = new Vue({
+        el : '#app',
+        data : {
+          counter : 0
+        },
+        components : {
+          'count-component' : component,
+          'count-two-component' : btnComponent
+        },
+        methods : {
+          incrementCounter : function() {
+            this.counter++;
+          },
+          eraseCounter : function() {
+            this.counter = 0;
+          }
+        }
+      })
+    });
+  </script>
+  <div id="app">
+    <p>{{ counter }}</p>
+    <button v-on:click="incrementCounter">카운터 증가</button>
+    <button v-on:click="eraseCounter">카운터 0으로</button>
+    <!-- 이벤트 컨트롤하는 on directive를 사용하여 이벤트 정의 (핸들러 = 뷰 인스턴스) -->
+    <count-component v-on:increment-me="incrementCounter"
+    v-on:erase-me="eraseCounter"></count-component>
+    <count-two-component v-on:count-up="incrementCounter"></count-two-component>
+  </div>
+  <!-- <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const component = {
+        template : `<div>
+                      <input v-model="text">
+                    </div>`,
+        props : ['text'],
+        watch : {
+          text : function() {
+            this.$emit('update', this.text);
+          }
+        }
+      };
+
+      let v2 = new Vue({
+        el : '#app2',
+        data : {
+          message : '초기값입니다.'
+        },
+        components : {
+          'text-component' : component
+        }, 
+        watch : {
+
+        }
+      });
+    });
+  </script>
+  <div id="app2">
+    <p>{{ message }}</p>
+    <text-component v-bind:text.sync="message"></text-component>
+  </div> -->
+  <script>
+    //sync 수식어
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      const btnComponent = {
+      template : `<div>
+                    {{ myCounter }}
+                    <button v-on:click="countUp()">자식 증가</button>
+                  </div>`,
+      props : {
+        myCounter : {
+          type : Number,
+          default : 0
+        }
+      },
+      methods : {
+        countUp : function() {
+          // this.myCounter + 1을 다시 this.myCounter 쪽에 안 넘겨줬음에도
+          // 부모 쪽에 update 시키면 자식 쪽으로 내려오기 때문에
+          // 실시간으로 업데이트 되는 것처럼 보임
+          this.$emit('update:myCounter', this.myCounter + 1);
+        }
+      }
+    }
+
+    let v2 = new Vue({
+      el : '#app2',
+      data : {
+        counter : 0
+      },
+      components : {
+        'btn-comp' : btnComponent
+      }, 
+      methods : {
+        countIncrement : function() {
+          this.counter++;
+        }
+      }
+    })
+
+    });
+  </script>
+  <div id="app2">
+    {{ counter }}<br>
+    <button v-on:click="countIncrement">증가</button>
+    <!-- update 이벤트 발생시켜 기존의 뷰 인스턴스에 정의되어있는 프로퍼티의 값을 집어넣게 함 -->
+    <!-- v-bind:my-counter="counter" @update:my-counter="(val) => { bar = val }" -->
+    <btn-comp v-bind:my-counter.sync="counter"></btn-comp>
+  </div>
+</body>
+</html>

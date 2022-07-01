@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      
+      const component = {
+        // Template Rules
+        // 1. html 태그로 구성 
+        // 2. 부모 자식간의 관계를 가진 하나의 태그로 구성
+        template : `<div>
+                      <h3>Hello, vue.js</h3>
+                      <p>{{ message }}</p>
+                      <p>{{ text }}</p>
+                      <input v-model="text">
+                    </div>`, 
+                    // 컴포넌트 내부에서 v-model 사용하면 부모인 뷰 인풋에서 변경한 사항은 
+                    // 반영되지만, 컴포넌트 내부에 있는 인풋에서 변경한 값은 위로 올라가지 않음 
+                    // 변경값을 올리고 싶으면 직접 message로 전달 필요 
+        // 컴포넌트도 일종의 뷰 인스턴스이기 때문에 옵션들을 쓸 수 있음 
+        // 문법 차이점 : data의 경우 function, return은 객체 형태
+        // 함수에 정의하된 반환값은 반드시 객체로 구성 (필드 -> 프로퍼티)
+        data : function() {
+          // 1.
+          //let obj = {};
+          //obj.message = '';
+          //return obj;
+
+          //2. 
+          return {
+            message : '컴포넌트 메세지'
+          }
+        },
+        computed : {},
+        methods : {},
+        watch : {},
+        // props 표기 방법 1: 배열 -> 간단하게 정의
+        // props : []
+        // props 표기 방법 2: 객체 -> 각 프로퍼티의 옵션을 정의
+        // 외부에서 값 받아올 경우 사용 
+        props : {
+          // type : String, Number, Boolean, Function, Object, Array, Symbol
+          // type은 배열로 지정도 가능
+          text : {
+            type : [String, Number],
+            required : true,
+            default : '기본값입니다.'
+            // 객체나 배열과 같은 참조 타입은 반드시 function() {return object or array} 형태 필요
+            // default : function(value) {
+            //   return value + "검증 완료되었습니다.";
+            // }
+          }
+        }
+      };
+
+      // 전역 등록 > html의 모든 vue 인스턴스에서 사용 가능 
+      Vue.component('global-component', component);
+
+      // 지역 등록(인스턴스 등록) -> 포함된 vue 인스턴스의 범위 안에서만 사용 가능 
+      let v1 = new Vue({
+        el : '#app',
+        components : {
+          'local-component' : component
+        }, 
+        data : {
+          text : '테스트'
+        }
+      });
+
+    });
+  </script>
+  <div id="app">
+    <!-- 전역 등록 -->
+    <!--<global-component v-bind:text="txt"></global-component>-->
+    <!-- 지역 등록 -->
+    <local-component :text="text"></local-component>
+    <input v-model="text">
+  </div>
+  <hr>
+  <hr>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const component = {
+        template : `<div>
+                      숫자 : {{ num + 1}}<br>
+                      문자열 : {{ str + '!' }}<br>
+                      짝수? : {{ even }}<br>
+                      객체 : {{ obj.message + '~' }}
+                    </div>`,
+        props : {
+          num : {
+            type : Number,
+            required : true
+          },
+          str : {
+            type : String,
+            default : '안녕'
+          }, 
+          obj : {
+            type : Object,
+            default : () => {
+              return { message : '안녕, 객체로부터'};
+            }
+          },
+          even : {
+            validator : (value) => {
+              return (value % 2) == 0;
+            }
+          }
+        }
+      }
+      let v2 = new Vue({
+        el : '#app2',
+        data : {
+          myNumber : 12,
+          passedString : '안녕하세요!',
+          passedObject : {
+            message : '집에 가고싶다.'
+          }
+        },
+        components : {
+          'my-component' : component
+        }
+      })
+    });
+  </script>
+  <div id="app2">
+    <my-component :num="myNumber" :str="passedString"
+    :even="myNumber" :obj="passedObject"></my-component>
+  </div>
+</body>
+</html>
