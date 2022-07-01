@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <link href="assets/css/app.css" type="text/css" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <title>Vue.js 애완용품샵</title>
+</head>
+<body>
+  <script>
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      let productAry = [];
+      let v1 = new Vue({
+        el : '#app',
+        data : {
+          sitename : 'Vue.js 애완용품샵',
+          products : [], 
+          cart : [],
+          showProduct : true,
+          order : {
+            firstName : '',
+            lastName : '',
+            address : '',
+            city : '',
+            zipCode : '',
+            state : '',
+            method : '자택 주소',
+            business : '직장 주소',
+            home : '자택 주소',
+            gift : '선물로 보내기',
+            sendGift : '선물로 보내기',
+            dontSendGift : '선물로 보내지 않기'
+          },
+          state : {
+            AL : '알라바마',
+            AK : '알래스카',
+            AR : '애리조나',
+            CA : '캘리포니아',
+            NV : '네바다'
+          },
+          styleClass : {
+            width: '300px',
+            height: '300px'
+          }
+        }, 
+        created : function() {
+            fetch('products.json')
+              .then(result => result.json())
+              .then(data => data.products)
+              .then(list => {
+                list.forEach(elem => {
+                  console.log(elem);
+                  this.products.push(elem)})
+              });
+              console.log(this.products);
+          },
+        methods : {
+          addToCart : function(product) {
+            this.cart.push(product.id);
+          },
+          checkOut : function() {
+            //this.showProduct = !this.showProduct;
+            this.showProduct = this.showProduct ? false : true;
+          },
+          submitForm : function() {
+            alert('제출이 완료되었습니다.');
+          },
+          checkRating : function(product, n) {
+            // if (n <= this.product.rating) {
+            //   return true;
+            // } else {
+            //   return false;
+            // }
+
+            // rating - n이 0보다 크거나 같을 경우는 true, 작을 경우에는 false를 반환
+            return (product.rating - n) >= 0; 
+          },
+          itemLeft : function(product) {
+            return product.availableInventory > this.cartCount(product.id);
+          },
+          cartCount : function(productId) {
+            let count = 0;
+            for (let i = 0; i < this.cart.length; i++) {
+              if (this.cart[i] == productId) {
+                count++;
+              }
+            }
+            return count;
+          }
+        },
+        computed : {
+          cartItemCount : function() {
+            return this.cart.length;
+          }
+        }, 
+        filters : {
+          // computed vs. filters
+          // computed 데이터 내부에 있는 값을 연결해서 변형
+          // filters 데이터 내부에 있는 값이 아니라도 연결하면 변형해서 결과값 도출, 단독으로 사용 불가
+            formatPrice : function(price) {
+              if (!parseInt(price)) {
+                return '';
+              }
+              if (price > 99999) {
+                // $1,000 이상의 값
+                // 소숫점 이하로 값 변경
+                let priceString = (price/100).toFixed(2);
+                // 반대 방향으로 한 글자마다 자름 
+                let priceArray = priceString.split('').reverse(); 
+                // console.log(priceString);
+                // console.log(priceArray);
+                let index = 3;
+                // 3자리 마다 ',' 집어넣음
+                while(priceArray.length > index + 3) {
+                  priceArray.splice(index+3, 0, ',');
+                  index += 4;
+                  // console.log(priceArray);
+                }
+                return '$' + priceArray.reverse().join('');
+              } 
+              else {
+                return '$' + (price/100).toFixed(2);
+              }
+            }
+        }
+      });
+    });
+  </script>
+  <div id="app" class="container">
+    <header>
+      <div class="navbar navbar-default">
+        <div class="navbar-header">
+          <h1 v-text="sitename"></h1>
+        </div>
+        <div class="nav navbar-nav navbar-right cart">
+          <button type="button" class="btn btn-default btn-lg" @click="checkOut">
+            <span v-if="cartItemCount > 0" class="glypicon glypicon-shopping-cart">{{ cartItemCount }}</span>
+            <span>체크아웃</span>
+          </button>
+        </div>
+      </div>
+    </header>
+    <main>
+      <div v-show="showProduct">
+        <div class="row product" v-for="(product, index) in products">
+        <div class="col-md-4">
+          <!-- 이미지 출력-->
+          <figure>
+            <img :src="product.image" :style="styleClass">
+          </figure>
+        </div>
+        <div class="col-md-4 col-expand">
+          <!-- 상품 관련 정보 출력 -->
+          <h1 v-text="product.title"></h1>
+          <p v-html="product.description"></p>
+          <!-- 필터 걸기 -> 넘겨주는 값에 대해서 원하는 형태로 변환 -->
+          <p class="price">{{ product.price | formatPrice }}</p>
+        </div>
+        <button class="btn btn-primary btn-lg" @click="addToCart(product)" v-bind:disabled="!itemLeft(product)">장바구니 담기</button>
+        <span v-if="product.availableInventory - cartCount(product.id) == 0" class="inventory-message">품절!</span>
+        <span v-else-if="(product.availableInventory - cartCount(product.id)) > 5"class="inventory-message">남은 재고: {{ product.availableInventory - cartCount(product.id) }}</span>
+        <span v-else class="inventory-message">지금 구매하세요! (남은 재고 : {{ product.availableInventory - cartCount(product.id) }})</span>
+        <div class="rating">
+          <!-- <span v-for="n in product.rating" class="rating-active">☆</span>
+          <span v-for="n in (5 - product.rating)">☆</span> -->
+          <span v-for="n in 5" v-bind:class="{'rating-active' : checkRating(product, n)}">☆</span>
+        </div>
+      </div>
+      </div>
+      <div class="row" v-show="!showProduct">
+        <div class="col-md-10 col-md-offset-1">
+          <div class="panel panel-info">
+            <div class="panel-heading">애완용품샵 체크아웃</div>
+            <div class="panel-body">
+
+              <div class="form-group">
+                <div class="col-md-12">
+                  <h4><strong>정보를 입력하세요.</strong></h4>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-md-6">
+                  <strong>이름</strong>
+                  <!-- 공백 제거를 위해 trim 붙여주기 -->
+                  <input type="text" id="name" class="form-control" 
+                  v-model.trim="order.firstName">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-md-6">
+                  <strong>성</strong>
+                  <input type="text" class="form-control" v-model.trim="order.lastName">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-md-12">
+                  <strong>주소</strong>
+                </div>
+                <div class="col-md-12">
+                  <input class="form-control" v-model.trim="order.address">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-md-12">
+                  <strong>도시</strong>
+                </div>
+                <div class="col-md-12">
+                  <input class="form-control" v-model.trim="order.city"> 
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-md-2">
+                  <strong>주</strong>
+                  <select class="form-control" v-model="order.state">
+                    <option disabled value="">주</option>
+                    <option v-for="(s, key) in state" :value="s">{{ key }}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-md-6 col-md-offset-4">
+                  <strong>우편번호</strong>
+                  <input type="number" class="form-control" v-model.number="order.zipCode">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-md-6 boxes">
+                  <!-- true-value, false-value (HTML에 있는 속성) -->
+                  <input type="checkbox" id="gift" value="true" 
+                  v-bind:true-value="order.sendGift" 
+                  v-bind:false-value="order.dontSendGift" 
+                  v-model="order.gift">
+                  <label for="gift">선물로 보내기?</label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-md-6 boxes">
+                  <input type="radio" id="home" name="method" 
+                  v-bind:value='order.home' 
+                  v-model="order.method">
+                  <label for="home">자택</label>
+                  <input type="radio" id="business" name="method" 
+                  v-bind:value="order.business" 
+                  v-model="order.method"> 
+                  <label for="business">직장</label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-md-6">
+                  <button type="submit" class="btn btn-primary submit" @click="submitForm()">주문하기</button>
+                </div>
+              </div>
+
+              <div class="col-md-12" verify>
+                <pre>
+                  이름 : {{ order.firstName }} 
+                  성 : {{ order.lastName }}
+                  주소 : {{ order.address }}
+                  도시 : {{ order.city }}
+                  주 : {{ order.state }}
+                  우편번호 : {{ order.zipCode }}
+                  배송지 : {{ order.method }}
+                  선물 : {{ order.gift }}
+                </pre>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
