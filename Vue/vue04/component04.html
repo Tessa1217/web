@@ -41,7 +41,8 @@
             this.$emit('board-read', info);
           },
           boardDelete : function(idx) {
-            this.$emit('board-delete', no);
+            console.log(idx);
+            this.$emit('board-delete', idx);
           },
           boardWrite : function() {
             this.$emit('board-write');
@@ -133,18 +134,31 @@
             }
           },
           boardRead : function(info) {
-
+            this.listOk = false;
+            this.readOk = true;
+            this.boardInfo = info;
+            this.boardInfo.view = parseInt(this.boardInfo.view) + 1;
           },
           boardWrite : function() {
-
+            this.listOk = false;
+            this.writeOk = true;
           },
           boardDelete : function(idx) {
-
           },
           boardList : function() {
-            
+            this.listOk = true;
+            this.readOk = false;
+            this.writeOk = false;
           },
           boardSubmit : function(title, content) {
+            let obj = {};
+            obj.no = this.dataArray['board'].length + 1;
+            obj.title = title;
+            obj.content = content;
+            obj.view = 1;
+            this.dataArray['board'].push(obj);
+            alert('글 등록이 완료되었습니다.');
+            this.boardList(); 
 
           }
         }
