@@ -144,6 +144,11 @@
             this.writeOk = true;
           },
           boardDelete : function(idx) {
+            this.dataArray['board'].forEach(elem => {
+              if (elem.no == idx) {
+                this.dataArray['board'].splice(this.dataArray['board'].indexOf(elem), 1);
+              }
+            })
           },
           boardList : function() {
             this.listOk = true;
@@ -152,7 +157,7 @@
           },
           boardSubmit : function(title, content) {
             let obj = {};
-            obj.no = this.dataArray['board'].length + 1;
+            obj.no = parseInt(this.dataArray['board'][this.dataArray['board'].length -1].no) + 1;
             obj.title = title;
             obj.content = content;
             obj.view = 1;
@@ -160,6 +165,16 @@
             alert('글 등록이 완료되었습니다.');
             this.boardList(); 
 
+          },
+          saveData : function(files) {
+            // rewrite file? 
+            // console.log(JSON.stringify(this.dataArray));
+            // const fs = require('fs');
+            // try {
+            //   fs.writeFileSync('board.json', JSON.stringify(this.dataArray), 'utf-8');
+            // } catch (e) {
+            //   console.log(e);
+            // }
           }
         }
       });
@@ -169,7 +184,7 @@
   <div id="app">
     <p>게시판 데이터 json 파일 읽기</p>
     <input type="file" @change="loadData">
-    <button>게시판 저장하기</button>
+    <button @click="saveData(this.files)">게시판 저장하기</button>
     <my-board-list v-if="listOk" :object="dataArray['board']"
     v-on:board-read="boardRead"
     v-on:board-write="boardWrite"
