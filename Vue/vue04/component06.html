@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Slot에 이름 지정
+      const component = {
+        template : `<div>
+                      <slot name="header"></slot>
+                      <h1>
+                        슬롯
+                        <slot name="button"></slot>
+                      </h1>
+                      <slot name="footer"></slot>
+                    </div>`
+      }
+
+      let v1 = new Vue({
+        el : '#app',
+        data : {
+          header : '헤더입니다.',
+          footer : '푸터입니다.'
+        },
+        components : {
+          'my-component' : component
+        }, 
+        methods : {
+          clickButton : function() {
+            alert('You\'ve clicked button!');
+          }
+        }
+      });
+    });
+  </script>
+  <div id="app">
+    <my-component>
+      <h3 slot="header">{{ header }}</h3>
+      <!-- 부모 컴포넌트 메소드 -->
+      <button slot="button" @click="clickButton">My Button</button>
+      <h3 slot="footer">{{ footer }}</h3>
+    </my-component>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const component = {
+        template : `<div>
+                      <slot></slot>
+                      <form>
+                        <!-- <label for="title">{{ title }}</label> -->
+                        <slot name="titleSlot"></slot>
+                        <input type="text" id="title"><br>
+                        <!-- <label for="author">{{ author }}</label> -->         
+                        <slot name="authorSlot"></slot>
+                        <input type="author" id="author">
+                      </form>
+                    </div>`,
+        props : ['title', 'author']
+      }
+      let v2 = new Vue({
+        el : '#app2',
+        data : {
+          authorLabel : 'AUTHOR:',
+          titleLabel : 'TITLE:',
+          pageLength : '',
+          header : 'FORM'
+        },
+        components : {
+          'form-component' : component
+        }
+      });
+    });
+  </script>
+  <br><hr><br>
+  <div id="app2">
+    <!-- <form-component :author="authorLabel" :title="titleLabel">
+      <h1>{{ header }}</h1>
+    </form-component> -->
+    <form-component>
+      <h1>{{ header }}</h1>
+      <label for="title" slot="titleSlot">{{ titleLabel }}</label>
+      <label for="author" slot="authorSlot">{{ authorLabel }}</label>
+    </form-component>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const bookComponent = {
+        template : `<div>
+                      <slot name="header"></slot>
+                      <slot name="book" v-for="book in booklist" v-bind:text="book">
+                      </slot>
+                    </div>`,
+        props : ['booklist']
+      }
+      let v3 = new Vue({
+        el : '#app3',
+        data : {
+          header : '책 목록입니다.',
+          bookList : [
+            {author : 'John Smith', title : "Best of Times"},
+            {author : 'Jane Doe', title : 'Go West Young Man'},
+            {author : 'Avery Katz', title : 'The Life And Times of Avery'}
+          ]
+        },
+        components : {
+          'book-component' : bookComponent
+        }
+      });
+    });
+  </script>
+  <div id="app3">
+    <book-component v-bind:booklist="bookList">
+      <h1 slot="header">{{ header }}</h1>
+      <!-- For directive slot -->
+      <!-- HTML template tag : 묶는 역학을 하는 태그 -->
+      <template slot="book" slot-scope="props">
+        <!-- Slot-scope -> 부모가 가지고 있는 bookList를 자식 컴포넌트에 전달 -> 
+        v-for을 통해 book으로 하나씩 꺼냄 -> v-bind로 book에 담음 -> 바인딩된 book을 가져옴 -->
+        <!-- 꼭 props가 아니어도 매칭만 되면 상관없음 - 임시 변수 -->
+        <h2>
+          <!-- props = booklist, text = book-->
+          <!-- props.text.title, props.text.author => booklist.book.title, booklist.book.author -->
+          <i>{{ props.text.title }}</i>
+          <small>by : {{ props.text.author }}</small>
+        </h2>
+      </template>
+    </book-component>
+  </div>
+</body>
+</html>
