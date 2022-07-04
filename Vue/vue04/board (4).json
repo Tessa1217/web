@@ -1,0 +1,52 @@
+{
+    "board": [
+        {
+            "no": "1",
+            "title": "첫번째글",
+            "content": "첫번째 글입니다.",
+            "view": "1"
+        },
+        {
+            "no": "2",
+            "title": "두번째글",
+            "content": "두번째 글입니다.",
+            "view": 2
+        },
+        {
+            "no": "3",
+            "title": "세번째글",
+            "content": "세번째 글입니다.",
+            "view": 2
+        },
+        {
+            "no": 4,
+            "title": "dd",
+            "content": "ddd",
+            "view": 1
+        },
+        {
+            "no": 5,
+            "title": "dd",
+            "content": "dddd",
+            "view": 3
+        },
+        {
+            "no": 6,
+            "title": "dd",
+            "content": "dddd",
+            "view": 2
+        },
+        {
+            "no": 7,
+            "title": "ddd",
+            "content": "dddd",
+            "view": 1
+        },
+        {
+            "no": 8,
+            "title": "dd",
+            "content": "dddd",
+            "view": 2
+        }
+    ]
+}
