@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <script src="https://unpkg.com/vue-router@3.5.3/dist/vue-router.js"></script>
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // Router : 한 페이지 내에서 컴포넌트끼리 데이터 주고 받음 (경로와 뷰를 매핑하여 뷰를 보이게 하는 역할)
+    // Router => 페이지 간 이동을 위한 라이브러리
+    // 한 페이지 내에서 링크 걸어두고 링크 클릭 시 해당 컴포넌트 작동 
+    // <router-link to="경로"> 태그 
+    document.addEventListener('DOMContentLoaded', function() {
+
+      const router = new VueRouter({
+        mode : 'history',
+        routes : [
+          {path : '/foo', component :{
+            template : `<div>foo</div>`
+          }},
+          {path : '/bar', component : {
+            template : `<div>bar</div>`
+          }},
+          // params 또는 query
+          // bind 디렉티브와 연결할 경우 동적으로 데이터를 받아서 출력 가능
+          // 라우터: 경로를 이용하여 컴포넌트끼리 데이터 주고받을 때 사용 용이
+          {path: '/user/:id', component : {
+            template : `<div>
+                        User {{ this.$route.params.id }}
+                        </div>`
+          }}
+        ]
+      });
+
+      new Vue({
+        router
+      }).$mount('#app');
+    });
+  </script>
+  <div id="app">
+    <h1>Hello App!</h1>
+    <p>
+      <router-link to="/foo">Go to Foo</router-link>
+      <router-link to="/bar">Go to Bar</router-link>
+      <router-link to="/user/1234">Go to user</router-link>
+    </p>
+    <router-view></router-view>
+  </div>
+</body>
+</html>
