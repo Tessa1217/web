@@ -125,3 +125,8 @@ table {
   #comment {
 	  margin-top: 3%;
   }
+
+  .titleContainer {
+	  text-align: center;
+	  padding: 1%;
+  }

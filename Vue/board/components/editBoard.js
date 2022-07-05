@@ -1,5 +1,7 @@
 let template = `<div>
-                  <h3>수정하기</h3>
+                  <div class="titleContainer">
+                    <h3>수정하기</h3>
+                  </div>
                   <table id="list">
                     <tr>
                       <td>글제목</td>

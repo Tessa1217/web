@@ -1,9 +1,9 @@
 let template = `<div>
                   <div v-show="show">
-                    <table id="listß">
-                      <tr>
-                        <td colspan=4>상세 게시판</td>
-                      </tr>
+                    <div class="titleContainer">
+                      <h3>게시물 상세보기</h3>
+                    </div>
+                    <table id="list">
                       <tr>
                         <td colspan=2>게시글 번호: {{ content.content_id }}</td>
                         <td v-if="!content.updated_at">작성일시: {{ content.created_at }}</td>
