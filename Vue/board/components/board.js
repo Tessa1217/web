@@ -1,3 +1,4 @@
+// 게시물 전체 리스트
 let template = `<div>
                   <div class="overflow-auto">
                     <table id="boardTable">
@@ -40,6 +41,7 @@ export default {
     }
   },
   computed : {
+    // Pagination (showing 10 posts per page)
     currentAry : function() {
         return this.contentAry.slice((this.currentPage - 1) * this.perPage,
         this.currentPage * this.perPage)
@@ -48,6 +50,7 @@ export default {
       return this.contentAry.length;
     }
   },
+  // contentAry 받아오기
   created : function() {
     this.contentAry = this.$parent.getContentAry(); 
   }

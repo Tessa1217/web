@@ -1,3 +1,4 @@
+// 게시글 수정
 let template = `<div>
                   <div class="titleContainer">
                     <h3>수정하기</h3>
@@ -26,6 +27,7 @@ export default {
   props : ['content'],
   template : template,
   methods : {
+    // 게시글 수정 (제목, 내용만 가능, 업데이트 일시 추가)
     modifyContent : function() {
       this.content.title = this.title;
       this.content.context = this.context;

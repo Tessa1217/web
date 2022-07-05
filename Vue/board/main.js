@@ -7,20 +7,6 @@ let template = `<div>
                   <router-view></router-view>
                 </div>`
 
-
-/* computed : {
-  postData : function() {
-    return this.contentData.map(content => {
-      let name = this.userData.filter(user => {
-        return (user.user_id == content.user_id)
-      })[0].name;
-      content.name = name;
-      return content;
-    })
-  }
-}
-
-*/
 new Vue({
   el :'#app',
   template : template,
@@ -35,12 +21,14 @@ new Vue({
     myHeader
   },
   created : function() {
+    // index.js에서 데이터 받아오기
     this.userAry = information.User;
     this.contentArray = information.Content;
     this.commentAry = information.Comment;
     this.subcommentAry = information.SubComment;
   },
   computed : {
+    // 작성자 필드 생성
     contentAry : function() {
       return this.contentArray.map(content => {
         content.name = this.userAry.filter(user => {
@@ -52,11 +40,7 @@ new Vue({
   },
   methods : {
     // Getter & Setter
-    // 각각의 라우터에 연계된 컴포넌트가 뷰 컴포넌트와 분리되어 있기 때문에
-    // 각각의 컴포넌트(독립된 객체)의 데이터에 접근할 때 Getter, Setter를 
-    // 통해 접근
     getContentAry : function() {
-      console.log(this.contentAry);
       return this.contentAry;
     },
     setContentArray : function(dataArray) {

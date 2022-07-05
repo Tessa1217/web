@@ -1,3 +1,4 @@
+// 게시글 상세보기 페이지
 let template = `<div>
                   <div v-show="show">
                     <div class="titleContainer">
@@ -16,7 +17,7 @@ let template = `<div>
                     </table>
                     <router-view></router-view>
                     <div class="btnContainer">
-                      <button v-if="modify" @click="modifyBoard">수정</button>
+                      <button @click="modifyBoard">수정</button>
                       <button @click="deleteBoard">삭제</button>
                     </div>
                     <div>
@@ -47,32 +48,34 @@ let template = `<div>
 
 export default {
   name : 'detail-board',
-  props : ['content', 'writer'],
+  props : ['content'],
   data : function() {
     return {
       comment : '',
       commentAry : [],
-      modify: true,
       show : true
     }
   },
   template : template,
+  // 해당 작성자의 커맨트 배열 받아오기
   created : function() {
     this.commentAry = this.$parent.getCommentAry().filter(elem => elem.content_id == this.content.content_id);
   },
   methods : {
+    // 수정 클릭 시 수정 컴포넌트 열고 상세 컴포넌트 감추기
     modifyBoard : function() {
       this.show = false;
       this.$router.push({name : 'edit'});
     },
+    // 게시물 삭제
     deleteBoard : function() {
       let contentAry = this.$parent.getContentAry(); 
-      let idx = contentAry.indexOf(this.content);
-      contentAry.splice(idx, 1);
+      contentAry.splice(contentAry.indexOf(this.content), 1);
       this.$parent.setContentArray(contentAry);
       alert('삭제가 완료되었습니다.');
       this.$router.push({name : 'boardList'});
     },
+    // 댓글 저장
     saveComment : function() {
       let commentAry = this.commentAry;
       let comment_id = 1;
@@ -80,6 +83,7 @@ export default {
         let idx = commentAry.length - 1;
         comment_id = parseInt(commentAry[idx].comment_id) + 1;
       } 
+      // 댓글 객체
       let comment = {
         comment_id : comment_id,
         content_id : this.content.content_id,
