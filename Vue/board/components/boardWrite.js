@@ -1,5 +1,5 @@
 let template = `<div>
-                  <table class="detail">
+                  <table id="list">
                     <tr>
                       <td>글제목</td>
                       <td><input type="text" v-model.trim="title" style="width: 80%;"></td> 
@@ -8,7 +8,9 @@ let template = `<div>
                       <td colspan=2><textarea style="rows:10;width:100%;" v-model.trim="context"></textarea></td>
                     </tr>
                   </table>
-                  <button @click="saveBoard">글 저장</button>
+                  <div class="btnContainer">
+                    <button @click="saveBoard">글 저장</button>
+                  </div>
                 </div>`
 
 export default {
@@ -39,7 +41,7 @@ export default {
         updated_at : null
       }
       contentAry.push(content);
-      this.$parent.setContentAry(contentAry);
+      this.$parent.setContentArray(contentAry);
       this.$router.push({name : 'boardList'});
     }
   }

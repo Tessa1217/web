@@ -1,6 +1,6 @@
 @charset "UTF-8";
 html {
-	width: 80%;
+	width: 100%;
 	margin-right: auto;
 	margin-left: auto;
 	font-family: sans-serif;
@@ -9,12 +9,17 @@ html {
 }
 
 header {
-	background: grey;
-	padding: 1%;
+	padding: 3%;
+	background: #003F5D;
 }
 
-header h3, h4 {
+header h3, h5 {
 	color : #fff;
+	display: inline-block;
+}
+
+header h5 {
+	margin-left : 3%;
 }
 
 input,button,select,optgroup,textarea,table {
@@ -80,3 +85,43 @@ select {
 	background-color: #4CAF50;
 	color: white;
 }
+
+.pagination {
+	justify-content: center;
+	margin: 3% auto;
+}
+
+table {
+	border : 1px solid #eee;
+	border-collapse : collapse;
+	width: 100%;
+	text-align: center;
+  }
+  tr, th, td {
+	border : 1px solid #eee;
+  }
+  tr:nth-of-type(even) {
+	background: #eee;
+  }
+  td {
+	padding: 1%;
+  }
+  tbody tr:hover {
+	cursor : pointer;
+	background: #aaa;
+  }
+  .detail {
+	width: 90%;
+	margin: 0 auto;
+  }
+  .btnContainer {
+	text-align: center;
+	margin: 30px;
+  }
+  .btnContainer button {
+	padding: 1%;
+  }
+
+  #comment {
+	  margin-top: 3%;
+  }
