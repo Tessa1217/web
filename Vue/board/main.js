@@ -15,7 +15,8 @@ new Vue({
     userAry : [],
     contentArray : [],
     commentAry : [],
-    subcommentAry : []
+    subcommentAry : [],
+    loginUser : {}
   },
   components : {
     myHeader
@@ -26,6 +27,7 @@ new Vue({
     this.contentArray = information.Content;
     this.commentAry = information.Comment;
     this.subcommentAry = information.SubComment;
+    this.loginUser = this.userAry[0];
   },
   computed : {
     // 작성자 필드 생성
@@ -39,21 +41,24 @@ new Vue({
     }
   },
   methods : {
-    // Getter & Setter
-    getContentAry : function() {
-      return this.contentAry;
+    // Getter
+    getData : function() {
+      return {
+        userAry : this.userAry,
+        contentAry : this.contentAry,
+        commentAry : this.commentAry,
+        subcommentAry : this.subcommentAry
+      }
     },
+    getLoginInfo : function() {
+      return this.loginUser;
+    },
+    // Setter
     setContentArray : function(dataArray) {
       this.contentArray = dataArray;
     },
-    getCommentAry : function() {
-      return this.commentAry;
-    },
     setCommentAry : function(dataArray) {
       this.commentAry = dataArray;
-    },
-    getSubCommentAry : function() {
-      return this.subcommentAry;
     },
     setSubCommentAry : function(dataArray) {
       this.subcommentAry = dataArray;

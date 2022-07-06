@@ -33,7 +33,9 @@ export default {
       this.content.context = this.context;
       this.content.updated_at = new Date().toISOString().substring(0, 10);
       alert('수정이 완료되었습니다.');
-      this.$router.push({name : 'boardList'});
+      console.log(this.$parent);
+      this.$parent.setShow(); 
+      this.$router.push({name : 'detailedBoard', params : {content : this.content}});
     }
   }
 }

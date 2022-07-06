@@ -12,39 +12,19 @@ let template = `<div>
                         <td>작성자: {{ content.name }}</td>
                       </tr>
                       <tr>
-                        <td colspan=4 rowspan=5><textarea :value="content.context" style="width:100%;" :readonly="modify"></textarea></td>
+                        <td colspan=4 rowspan=5><textarea :value="content.context" style="width:100%;" :readonly="true"></textarea></td>
                       </tr>
                     </table>
-                    <router-view></router-view>
                     <div class="btnContainer">
                       <button @click="modifyBoard">수정</button>
                       <button @click="deleteBoard">삭제</button>
                     </div>
-                    <div>
-                      <table class="detail">
-                        <tr>
-                          <th>{{ content.name }}</th>
-                          <td style="width:80%;"><input type="text" v-model.trim="comment" style="width:100%;"></td>
-                          <td style="width:10%;"><button @click="saveComment">작성하기</button></td>
-                        </tr>
-                      </table>
-                    </div>
-                    <div v-if="commentAry.length > 0">
-                      <table class="detail" id="comment">
-                        <tr>
-                          <td colspan=2>댓글창</td>
-                        </tr>
-                        <tr v-for="comment in commentAry">
-                          <td style="width:85%;">{{ comment.context }}</td>
-                          <td>{{ comment.created_at }}</td>
-                        </tr>
-                      </table>
-                    </div>
-                  </div>
-                  <div v-show="!show">
-                    <router-view></router-view>
+                    <comment-list v-bind:contentId="content.content_id"></comment-list>
                   </div>
                 </div>`
+
+import subComment from './subComment.js'
+import commentList from './commentList.js'
 
 export default {
   name : 'detail-board',
@@ -53,23 +33,34 @@ export default {
     return {
       comment : '',
       commentAry : [],
-      show : true
+      show : true,
+      commentShow : false
+    }
+  },
+  computed : {
+    subComments : function() {
+      console.log(this.currentcomment);
+      return this.$parent.getData().subcommentAry;
     }
   },
   template : template,
+  components : {
+    subComment,
+    commentList
+  },
   // 해당 작성자의 커맨트 배열 받아오기
   created : function() {
-    this.commentAry = this.$parent.getCommentAry().filter(elem => elem.content_id == this.content.content_id);
+    this.commentAry = this.$parent.getData().commentAry.filter(elem => elem.content_id == this.content.content_id);
   },
   methods : {
     // 수정 클릭 시 수정 컴포넌트 열고 상세 컴포넌트 감추기
     modifyBoard : function() {
-      this.show = false;
+      this.setShow(); 
       this.$router.push({name : 'edit'});
     },
     // 게시물 삭제
     deleteBoard : function() {
-      let contentAry = this.$parent.getContentAry(); 
+      let contentAry = this.$parent.getData().contentAry;
       contentAry.splice(contentAry.indexOf(this.content), 1);
       this.$parent.setContentArray(contentAry);
       alert('삭제가 완료되었습니다.');
@@ -96,6 +87,16 @@ export default {
       this.$parent.setCommentAry(commentAry);
       alert('커맨트가 저장되었습니다.');
       this.comment = '';
+    },
+    // 답글 달기
+    addSubComment : function(comment) {
+      console.log(comment);
+      if (comment != null) {
+        this.commentShow = !this.commentShow;
+      }
+    },
+    setShow : function() {
+      this.show = !this.show;
     }
   }
 }

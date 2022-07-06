@@ -26,9 +26,9 @@ export default {
   methods : {
     // 게시글 저장
     saveBoard : function() {
-      let contentAry = this.$parent.getContentAry(); 
+      let contentAry = this.$parent.getData().contentAry;
       // 배열 비었을 경우 첫번째 값 지정 
-      let user_id = 1;
+      let user_id = this.$parent.getLoginInfo().user_id;
       let content_id = 1;
       // 배열 비어있지 않을 경우 마지막 아이디 + 1
       if (contentAry.length > 0) {
@@ -47,6 +47,7 @@ export default {
       contentAry.push(content);
       // 새로운 게시물 저장된 배열 뷰 컴포넌트에 업데이트
       this.$parent.setContentArray(contentAry);
+      alert('게시물이 저장되었습니다.');
       this.$router.push({name : 'boardList'});
     }
   }

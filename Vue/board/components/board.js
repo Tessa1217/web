@@ -52,7 +52,56 @@ export default {
   },
   // contentAry 받아오기
   created : function() {
-    this.contentAry = this.$parent.getContentAry(); 
+    this.contentAry = this.$parent.getData().contentAry;
   }
 }
 
+
+/*
+Paging
+<!-- html -->
+<ul>
+<li v-for="page in pagingInfo.totalPage" v-on:click="this.currentPage = page">{{ page }}</li>
+</ul>
+
+// Javascript
+export default {
+	template : template,
+	data : function() {
+		return {posts:[], currentPage:1}
+	},
+	computed : {
+		// data 속성을 필요에 따라 산출해서 또 다른 프로퍼티 > 읽기 전용
+    pagingInfo : function() {
+      let perData = 10;
+      let totalPage = Math.ceil(this.posts.length/perData);
+
+      let totalPageArray = [];
+      for (let i=1; i <= totalPage; i++) {
+        totalPageArray.push(i);
+      }
+      return {
+        perData : perData,
+        totalPage : totalPageArray
+      }
+
+    },
+    // 현재 페이지에 따라 출력될 데이터 
+    currentData : function() {
+      let firstIndex = (this.currentPage - 1) * this.pagingInfo.perData;
+      let lastIndex = firstIndex + this.pagingInfo.perData - 1;
+      return this.posts.filter((elem, idx) => {
+        return idx >= firstIndex ? (idx <= lastIndex ? true : false) : false;
+      })
+    }
+
+	},
+	watch : {
+		// 프로퍼티 변화를 감지해서 진행해야 하는 프로세스 정의
+	},
+	// 인스턴스 라이프사이클 중에서 어느 시점에 진행해야 하는 프로세스 정의
+	created : function() {
+	this.posts = this.$parent.getData().contentAry;
+	}
+} 
+*/

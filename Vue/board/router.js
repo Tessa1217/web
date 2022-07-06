@@ -2,6 +2,7 @@ import boardList from './components/board.js'
 import boardWrite from './components/boardWrite.js';
 import detailedBoard from './components/detailedBoard.js'
 import editBoard from './components/editBoard.js'
+import subcomment from './components/subComment.js'
 
 export default new VueRouter({
   mode : 'history',
