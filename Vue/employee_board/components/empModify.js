@@ -1,7 +1,7 @@
 let template = `<div>
                   <div id="insertForm">
-                    <p> <label for="employee_id">사원번호</label>
-                    <input type="number" v-model.number="employee.employee_id"></p>
+                    <p><label for="employee_id">사원번호</label>
+                    <input type="number" v-model.number="employee.employee_id" :readonly="true"></p>
                     <p><label for="first_name">이름</label>
                     <input type="text" v-model.trim="employee.first_name"></p>
                     <p><label for="last_name">성</label>
@@ -34,8 +34,13 @@ export default {
   },
   methods : {
     updateEmployee() {
-      let employee = this.employee;
-      console.log(employee);
+      let employee = {
+        last_name : this.employee.last_name,
+        first_name : this.employee.first_name,
+        employee_id : this.employee.employee_id,
+        job_id : this.employee.job_id,
+        email : this.employee.email
+      };
       let router = this.$router;
       $.ajax({
         url: 'http://192.168.0.29/myserver/empUpdate',
@@ -54,7 +59,26 @@ export default {
       })
     },
     deleteEmployee() {
-
+      let employeeId = {
+        employee_id : this.employee.employee_id
+      }
+      let router = this.$router;
+      $.ajax({
+        url : 'http://192.168.0.29/myserver/empDelete',
+        type: 'POST',
+        dataType : 'json',
+        data : employeeId,
+        success: function(data) {
+          if (data != null) {
+            alert('삭제가 완료되었습니다.');
+            router.push({name:'myEmpList'});
+          }
+        },
+        error: function(reject) {
+          console.log(reject);
+        }
+      })
     }
   }
 }
+
