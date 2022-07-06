@@ -1,3 +1,4 @@
+// 사원 정보 변경 컴포넌트
 let template = `<div>
                   <div id="insertForm">
                     <p><label for="employee_id">사원번호</label>
@@ -23,7 +24,7 @@ let template = `<div>
 export default {
   name : 'my-emp-modify',
   template : template,
-  props : ['employee'],
+  props : ['employee', 'function'],
   data : function() {
     return {
       jobList : []
@@ -33,6 +34,7 @@ export default {
     this.jobList = this.$parent.getJobList(); 
   },
   methods : {
+    // 사원 정보 수정
     updateEmployee() {
       let employee = {
         last_name : this.employee.last_name,
@@ -42,6 +44,8 @@ export default {
         email : this.employee.email
       };
       let router = this.$router;
+      let func = this.function;
+
       $.ajax({
         url: 'http://192.168.0.29/myserver/empUpdate',
         type: 'POST',
@@ -50,6 +54,7 @@ export default {
         success: function(data) {
           if (data != null) {
             alert('수정이 완료되었습니다.');
+            func();
             router.push({name:'myEmpModify', params:{employee:employee}});
           }
         },
@@ -58,10 +63,12 @@ export default {
         }
       })
     },
+    // 사원 정보 삭제
     deleteEmployee() {
       let employeeId = {
         employee_id : this.employee.employee_id
       }
+      let func = this.function;
       let router = this.$router;
       $.ajax({
         url : 'http://192.168.0.29/myserver/empDelete',
@@ -71,6 +78,7 @@ export default {
         success: function(data) {
           if (data != null) {
             alert('삭제가 완료되었습니다.');
+            func(); 
             router.push({name:'myEmpList'});
           }
         },

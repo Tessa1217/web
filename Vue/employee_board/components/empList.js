@@ -1,3 +1,4 @@
+// 사원 목록 출력 컴포넌트
 let template = `<div>
                   <table>
                     <thead>
@@ -17,7 +18,7 @@ let template = `<div>
                       </tr>
                     </thead>
                     <tbody>
-                      <router-link tag="tr" v-for="employee in currentData" :to="{name:'myEmpModify', params:{employee:employee}}">
+                      <router-link tag="tr" v-for="employee in currentData" :to="{name:'myEmpModify', params:{employee:employee, function:listChange}}">
                         <td>{{ employee.last_name }}</td>
                         <td>{{ employee.first_name }}</td>
                         <td>{{ employee.employee_id }}</td>
@@ -34,11 +35,15 @@ let template = `<div>
                       <!--<tr v-for="employee in currentData" ></tr>-->
                     </tbody>
                   </table>
-                  <ul class="pagination">
-                    <template>
-                      <li class="page-item" v-for="page in pagingInfo.totalPage" v-on:click="currentPage=page">{{ page }}</li>
-                    </template>
-                  </ul>
+                  <nav aria-label="empList pagination">
+                    <ul class="pagination">
+                    <li class="page-item">Previous</li>
+                      <template>
+                        <li class="page-item" v-for="page in pagingInfo.totalPage" v-on:click="currentPage=page">{{ page }}</li>
+                      </template>
+                      <li class="page-item">Next</li>
+                    </ul>
+                  </nav>
                   <div class="btnContainer">
                     <router-link tag="button" :to="{name:'myEmpInsert', params:{function:listChange}}">사원등록</router-link>
                   </div>
@@ -53,6 +58,7 @@ export default {
       currentPage : 1
     }
   },
+  // 생성 시 사원 리스트 받아옴
   created : function() {
     let emp = this.empList;
     $.ajax({
@@ -68,6 +74,7 @@ export default {
       }
     });
   },
+  // 페이징
   computed : {
     pagingInfo : function() {
       let perData = 10;
@@ -91,8 +98,9 @@ export default {
     }
   },
   methods : {
+    // 변경 사항 있으면 ajax 재호출
     listChange : function() {
-      this.empList = this.created; 
+      this.created; 
     }
   }
 }

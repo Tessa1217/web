@@ -1,3 +1,4 @@
+// 사원 등록 컴포넌트 
 let template = `<div>
                   <div id="insertForm">
                     <p> <label for="employee_id">사원번호</label>
@@ -22,6 +23,7 @@ export default {
   name : 'my-emp-insert',
   template : template,
   data : function() {
+    // 사원 객체
     return {
       employee : {
         last_name : '',
@@ -30,6 +32,7 @@ export default {
         job_id : '',
         email : ''
       },
+      // 직원 코드
       jobList : []
     }
   },
@@ -38,9 +41,11 @@ export default {
     this.jobList = this.$parent.getJobList(); 
   },
   methods : {
+    // 사원 등록
     insertEmployee: function() {
       let employee = this.employee;
       let router = this.$router;
+      // ajax 재호출 함수
       let func = this.function; 
 
       $.ajax({
@@ -51,7 +56,7 @@ export default {
         success: function(data) {
           if (data != null) {
             alert('입력이 완료되었습니다.');
-            console.log(func);
+            // ajax 호출하여 변경한 리스트로 업데이트
             func();
             router.push({name : 'myEmpList'});
           }
@@ -60,10 +65,6 @@ export default {
           alert(reject);
         }
       });
-    },
-    listChange : function() {
-      console.log(this.$parent);
-      console.log(this.function);
     }
   }
   

@@ -1,7 +1,4 @@
 import myHeader from './components/header.js'
-import myEmpList from './components/empList.js'
-// import myEmpModify from './components/empModify.js'
-import myEmpInsert from './components/empInsert.js'
 import router from './router.js'
 
 let template = `<div>
