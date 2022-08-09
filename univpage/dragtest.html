@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table {
+            width: 100%;
+            border: 1px solid #eee;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #eee;
+            padding: 2%;
+        }
+        tr:nth-of-type(even) {
+            background: #eee;
+        }
+    </style>
+</head>
+<body>
+    <h1>Drag & Drop 구현 테스트</h1>
+    <table>
+        <thead>
+            <tr>
+            <th>문제</th>
+            <th>보기1</th>
+            <th>보기2</th>
+            <th>보기3</th>
+            <th>보기4</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="draggable" draggable="true">
+                <td class="question">Question1</td>
+                <td class="options">Option1</td>
+                <td class="options">Option2</td>
+                <td class="options">Option3</td>
+                <td class="options">Option4</td>
+            </tr>
+            <tr class="draggable" draggable="true">
+                <td class="question">Question2</td>
+                <td class="options">Option1</td>
+                <td class="options">Option2</td>
+                <td class="options">Option3</td>
+                <td class="options">Option4</td>
+            </tr> 
+            <tr class="draggable" draggable="true">
+                <td class="question">Question3</td>
+                <td class="options">Option1</td>
+                <td class="options">Option2</td>
+                <td class="options">Option3</td>
+                <td class="options">Option4</td>
+            </tr>
+            <tr class="draggable" draggable="true">
+                <td class="question">Question4</td>
+                <td class="options">Option1</td>
+                <td class="options">Option2</td>
+                <td class="options">Option3</td>
+                <td class="options">Option4</td>
+            </tr>
+            <tr class="draggable" draggable="true">
+                <td class="question">Question5</td>
+                <td class="options">Option1</td>
+                <td class="options">Option2</td>
+                <td class="options">Option3</td>
+                <td class="options">Option4</td>
+            </tr>  
+            <tr class="draggable" draggable="true">
+                <td class="question">Question6</td>
+                <td class="options">Option1</td>
+                <td class="options">Option2</td>
+                <td class="options">Option3</td>
+                <td class="options">Option4</td>
+            </tr>     
+        </tbody>
+    </table>
+    <div>
+        <div class="container">
+            <p>1.</p>
+            <ol>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ol>
+        </div>
+        <div class="container">
+            <p>2.</p>
+            <ol>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ol>
+        </div>
+        <div class="container">
+            <p>3.</p>
+            <ol>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ol>
+        </div>
+        <div class="container">
+            <p>4.</p>
+            <ol>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ol>
+        </div>
+        <div class="container">
+            <p>5.</p>
+            <ol>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ol>
+        </div>
+        <div class="container">
+            <p>6.</p>
+            <ol>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ol>
+        </div>
+    </div>
+    <script>
+        const draggables = document.querySelectorAll(".draggable");
+        const containers = document.querySelectorAll(".container");
+        draggables.forEach(draggable => {
+            draggable.addEventListener("dragstart", function() {
+                draggable.classList.add("dragging");
+            })
+            draggable.addEventListener("dragend", function() {
+                draggable.classList.remove("dragging");
+            })
+        })
+        
+        containers.forEach(container => {
+            container.addEventListener("dragover", (e) => {
+                e.preventDefault();
+            })
+            container.addEventListener("drop", (e) => {
+                const draggable = document.querySelector(".dragging");
+                const question = draggable.getElementsByClassName("question")[0].textContent;
+                const options = draggable.getElementsByClassName("options");
+                container.getElementsByTagName("P")[0].textContent += ' ' + question;
+                const containerList = container.getElementsByTagName("LI");
+                for (let i = 0; i < containerList.length; i++) {
+                    containerList[i].textContent = options[i].textContent;
+                }
+            })
+        })
+    </script>
+</body>
+</html>
